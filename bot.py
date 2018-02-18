@@ -17,6 +17,7 @@ import time as time_check
 import tts
 import shutil
 from libs.cpu import CPU
+from libs.apps import Apps
 #Allow the user to communicate with the bot
 #Also allow the bot to learn about the person
 def getSpeech():
@@ -97,6 +98,35 @@ def toBot(messageToBot):
                             w.setClarissaSetting("main","user.name", messageToBot.replace("Call me ", ""))
                     elif("call me " in messageToBot):
                             w.setClarissaSetting("main","user.name", messageToBot.replace("call me ", ""))
+                    elif("Run " in messageToBot):
+                        apps = Apps()
+                        if(apps.does_app_exist(messageToBot.replace("Run ","")) == True):
+                            apps.run(messageToBot.replace("Run ",""))
+                            return None
+                        else:
+                            print(messageToBot.replace("Run ","")+" was not found")
+                            if(clarissa_voice_recognition_enabled == True):
+                                toBot(messageToBot=getSpeech())
+                            else:
+                                toBot(messageToBot=input(r.getClarissaSetting("main","user.name")+": "))
+                    elif("run " in messageToBot):
+                        apps = Apps()
+                        if(apps.does_app_exist(messageToBot.replace("run ","")) == True):
+                            apps.run(messageToBot.replace("run ",""))
+                            return None
+                        else:
+                            print(messageToBot.replace("run ","")+" was not found")
+                            if(clarissa_voice_recognition_enabled == True):
+                                toBot(messageToBot=getSpeech())
+                            else:
+                                toBot(messageToBot=input(r.getClarissaSetting("main","user.name")+": "))
+                    elif("Make app" in messageToBot):
+                        apps = Apps()
+                        apps.make_app(input("App name:"))
+                    elif("make app" in messageToBot):
+                        apps = Apps()
+                        apps.make_app(input("App name:"))
+
                     log.log("chat.log", messageToBot)
                     cpu_def = CPU()
                     cpu_def.run_code(code=bot.getResponse(messageToBot))
@@ -190,6 +220,9 @@ try:
         elif("--retrain" in sys.argv):
                 cb = ChatBot('Clarissa', trainer='chatterbot.trainers.ChatterBotCorpusTrainer')
                 cb.train("chatterbot.corpus.english")
+        elif(sys.argv[1] == "--make-app"):
+            app = Apps()
+            app.make_app(sys.argv[2])
         elif("--help" in sys.argv or "--h" in sys.argv):
                 print("Commands:")
                 print("\t--add-command : Adds command to Clarissa")
@@ -208,6 +241,7 @@ try:
                 print("\t--speak-out: Allows Clarissa to talk (BETA, may be slow!)")
                 print("\t--disable-speak-out: Stays to classic input output")
                 print("\t--retrain: Retrains this bot")
+                print("\t--make-app: Builds sample app to CApps directory (--make-app [APP_NAME])")
                 print("\t--h / --help : Prints this list")
         else:
                 if(clarissa_voice_recognition_enabled is True):
