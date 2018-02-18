@@ -9,8 +9,10 @@ from urllib.request import urlopen
 import reader as sr
 import tts
 def getResponse(messageToBot):
-	getServerBasedResponse(messageToBot)
-
+	try:
+		getServerBasedResponse(messageToBot)
+	except urllib.error.HTTPError:
+		getChatBasedResponse(messageToBot)
 
 def getServerBasedResponse(to_bot):
 	#Use chatterbot to come up with response
@@ -47,4 +49,7 @@ def getServerBasedResponse(to_bot):
 	res = r.post(url, data=query)
 	print("Clarissa: "+str(Statement(cb.get_response(to_bot))))
 
-	
+def getChatBasedResponse(to_bot):
+	#Get raw chat based response
+	cb = ChatBot('Clarissa', trainer='chatterbot.trainers.ChatterBotCorpusTrainer')
+	print("Clarissa: "+str(Statement(cb.get_response(to_bot))))

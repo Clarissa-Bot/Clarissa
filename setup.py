@@ -35,6 +35,7 @@ def setupClarissa(install_path):
 	w.setClarissaSetting("main", "user.name", input("Your username: "))
 	cb = ChatBot('Clarissa', trainer='chatterbot.trainers.ChatterBotCorpusTrainer')
 	cb.train("chatterbot.corpus.english")
+	os.system("pip install -r TO_INSTALL.txt")
 	
 try:
 	setupClarissa(sys.argv[1])

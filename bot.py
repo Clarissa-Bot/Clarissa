@@ -1,3 +1,4 @@
+from chatterbot import ChatBot
 import os
 import sys as sys
 os.system("python bot/bot.py engage")
@@ -15,6 +16,7 @@ import datetime
 import time as time_check
 import tts
 import shutil
+from libs.cpu import CPU
 #Allow the user to communicate with the bot
 #Also allow the bot to learn about the person
 def getSpeech():
@@ -96,7 +98,8 @@ def toBot(messageToBot):
                     elif("call me " in messageToBot):
                             w.setClarissaSetting("main","user.name", messageToBot.replace("call me ", ""))
                     log.log("chat.log", messageToBot)
-                    bot.getResponse(messageToBot)
+                    cpu_def = CPU()
+                    cpu_def.run_code(code=bot.getResponse(messageToBot))
                     if(clarissa_voice_recognition_enabled == True):
                             toBot(messageToBot=getSpeech())
                     else:
@@ -184,6 +187,9 @@ try:
                 w.setClarissaSetting("speech", "speak_out", "true")
         elif ("--disable-speak-out" in sys.argv):
                 w.setClarissaSetting("speech", "speak_out", "false")
+        elif("--retrain" in sys.argv):
+                cb = ChatBot('Clarissa', trainer='chatterbot.trainers.ChatterBotCorpusTrainer')
+                cb.train("chatterbot.corpus.english")
         elif("--help" in sys.argv or "--h" in sys.argv):
                 print("Commands:")
                 print("\t--add-command : Adds command to Clarissa")
@@ -201,6 +207,7 @@ try:
                 print("\t--disable-speech-recognition: Disables speech recognition")
                 print("\t--speak-out: Allows Clarissa to talk (BETA, may be slow!)")
                 print("\t--disable-speak-out: Stays to classic input output")
+                print("\t--retrain: Retrains this bot")
                 print("\t--h / --help : Prints this list")
         else:
                 if(clarissa_voice_recognition_enabled is True):
