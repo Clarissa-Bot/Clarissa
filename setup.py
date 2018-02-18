@@ -5,8 +5,54 @@ from tempfile import mkstemp
 from shutil import move
 from os import fdopen, remove
 import writer as w
+import requests as r
+import urllib.request, urllib.error, urllib.parse
+import json
+from urllib.request import urlopen
+url = 'http://softy.xyz/login/login_empty.php'
+def getStatus(url):
+	with open(url, "r") as f:
+		j = json.load(f)
+	text = ""
+	for line in range(len(j)):
+		if(j[line]["status"] == "OKAY"):
+			w.setClarissaSettingWithPath("user.ini", "user", "user", j[line]["username"])
+			w.setClarissaSettingWithPath("user.ini", "pass","pass", j[line]["password"])
+		else:
+			print("You entered either a wrong username or password")
+def useWebServices():
+	have_signed_up = input("Have you signed up for Softy? (Y/N)")
+	if(have_signed_up == "Y"):
+		url = 'http://softy.xyz/login/login_empty.php'
+		user = input("Username: ")
+		password = input("Password: ")
+		query = {"username": user,
+		"password": password,
+		"go": ""}
+		res = r.post(url, data=query)
+		f = open("user.json","w")
+		f.write(res.text)
+		f.flush()
+		f.close()
+		getStatus("user.json")
+		os.remove("user.json")
+	else:
+		url = "http://softy.xyz/login/register_empty.php"
+		pn = input("Phone number: ")
+		em = input("Email: ")
+		user = input("Username: ")
+		password = input("Password: ")
+		query = {
+		"number": pn,
+		"email": em,
+		"username": user,
+		"password": password
+		}
+		res = r.post(url, data=query)
+
 
 def setupClarissa(install_path):
+	useWebServices()
 	os.remove("setup.ini")
 	if(os.path.isfile("setup.ini")):
 		out = open('setup.ini', 'a')
