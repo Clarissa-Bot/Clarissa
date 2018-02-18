@@ -1,3 +1,5 @@
+from chatterbot import ChatBot
+from chatterbot.conversation import Statement
 import logger as log
 import urllib.request, urllib.error, urllib.parse
 import json
@@ -11,6 +13,9 @@ def getResponse(messageToBot):
 
 
 def getServerBasedResponse(to_bot):
+	#Use chatterbot to come up with response
+	#Then add response to server if command is not on server
+	cb = ChatBot('Clarissa', trainer='chatterbot.trainers.ChatterBotCorpusTrainer')
 	url = "http://softy.xyz/apps/sites/clarissa/get.php"
 	req = urllib.request.Request(url)
 	opener = urllib.request.build_opener()
@@ -21,12 +26,25 @@ def getServerBasedResponse(to_bot):
 		if to_bot == j[line]['command']:
 			if(sr.getClarissaSetting("speech", "speak_out") == "true"):
 				text = j[line]['reply']
-				tts.init(text, 'en-UK', False)
+				tts.init(text, 'en-US', False)
 			print("Clarissa: "+j[line]['reply'])
+			return None
 		elif to_bot.lower() in j[line]['command'].lower():
 			if(sr.getClarissaSetting("speech", "speak_out") == "true"):
 				text = j[line]['reply']
-				tts.init(text, 'en-UK', False)
+				tts.init(text, 'en-US', False)
 			print("Clarissa: "+j[line]['reply'])
+			return None
+	
+	if(sr.getClarissaSetting("speech", "speak_out") == "true"):
+		text = str(Statement(cb.get_response(to_bot)))
+		tts.init(text, 'en-US', False)
+	import requests as r
+	url = 'http://softy.xyz/apps/sites/clarissa/update.php'
+	query = {'c': to_bot,
+			'r': str(Statement(cb.get_response(to_bot))),
+			'a': "None"}
+	res = r.post(url, data=query)
+	print("Clarissa: "+str(Statement(cb.get_response(to_bot))))
 
 	

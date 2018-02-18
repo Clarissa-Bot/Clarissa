@@ -1,0 +1,6 @@
+gtts
+playsound
+SpeechRecognition
+PyAudio
+beautifulsoup4
+chatterbot

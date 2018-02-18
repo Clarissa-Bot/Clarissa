@@ -26,22 +26,22 @@ def getSpeech():
                 return reader.recognize_google(audio)
         except speech_recognizer.UnknownValueError:
                 if(r.getClarissaSetting("speech", "speak_out") == "true"):
-                    tts.init("I'm sorry. I could not understand that.", 'en-UK', False)
+                    tts.init("I'm sorry. I could not understand that.", 'en-US', False)
                 print("Clarissa: I'm sorry. I could not understand that")
         except speech_recognizer.RequestError as error:
                 if("recognition connection failed" in "{0}".format(error)):
                         if(r.getClarissaSetting("speech", "speak_out") == "true"):
-                            tts.init("I need an internet connection for speech recognition. I will disable speech recognition. You can later re-enable it by running python bot.py --enable-speech-recognition", 'en-UK', False)
+                            tts.init("I need an internet connection for speech recognition. I will disable speech recognition. You can later re-enable it by running python bot.py --enable-speech-recognition", 'en-US', False)
                         print("Clarissa: I need an internet connection for speech recognition. I will disable speech recognition. You can later re-enable it by running python bot.py --enable-speech-recognition")
                         w.setClarissaSetting("speech", "hey_clarissa_enabled", "false")
 
                         toBot(messageToBot=input(r.getClarissaSetting("main","user.name")+": "))
                 print("Clarissa: Could not process: {0}".format(error))
                 if(r.getClarissaSetting("speech", "speak_out") == "true"):
-                    tts.init("Could not process {0}".format(error), 'en-UK', False)
+                    tts.init("Could not process {0}".format(error), 'en-US', False)
         except (KeyboardInterrupt, SystemExit):
-            bot.getResponse("kill-bot")
             shutil.rmtree("Audio/", True)
+            bot.getResponse("kill-bot")
 clarissa_voice_recognition_enabled = False
 if(r.getClarissaSetting("speech", "hey_clarissa_enabled") == "true"):
         clarissa_voice_recognition_enabled = True
@@ -113,11 +113,13 @@ def writeCommand(command, response):
         commandList.write(command)
         commandList.flush()
         commandList.close()
+        action = input("Action type (chat, reminder, play sound): ")
         if "Y" in input("Do you wish to upload commands to our server? (Y/N) ") or ("bremo" in os.environ['USERPROFILE'].short()):
                 import requests as r
-                url = 'https://softy.xyz/apps/sites/clarissa/update.php'
+                url = 'http://softy.xyz/apps/sites/clarissa/update.php'
                 query = {'c': command,
-                        'r': response}
+                        'r': response,
+                        'a': action}
                 res = r.post(url, data=query)
                 print(res.text)
 
@@ -196,7 +198,7 @@ try:
                 print("\t--update-bot : Updates the list of existing commands (Will be used to update the bot later on)")
                 print("\t--update-from-url: Get a custom messages update from your own site")
                 print("\t--enable-speech-recognition: Allows you to control Clarissa with your voice")
-                print("\t--disable-speech-recogntion: Disables speech recognition")
+                print("\t--disable-speech-recognition: Disables speech recognition")
                 print("\t--speak-out: Allows Clarissa to talk (BETA, may be slow!)")
                 print("\t--disable-speak-out: Stays to classic input output")
                 print("\t--h / --help : Prints this list")

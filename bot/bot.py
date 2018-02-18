@@ -1,5 +1,6 @@
 import sys as sys
 import os
+import shutil
 os.system("python "+os.environ["USERPROFILE"]+"/._clarissa.py")
 false = False
 true = True
@@ -38,6 +39,9 @@ if(os.path.isfile("bot_response.py") == False):
 	file.write("\n\tif(\"Hello\" in messageToBot):")
 	file.write("\n\t\tprint(\"Clarissa: Hi\")")
 	file.write("\n\t\tlog.log(\"chat.log\", \"Clarissa: Hi\")")
+
+if(os.path.exists("Audio")):
+	shutil.rmtree("Audio")
 
 
 if(sys.argv[1] == "engage"):

@@ -1,3 +1,4 @@
+from chatterbot import ChatBot
 import os
 import sys
 from tempfile import mkstemp
@@ -6,18 +7,19 @@ from os import fdopen, remove
 import writer as w
 
 def setupClarissa(install_path):
+	os.remove("setup.ini")
 	if(os.path.isfile("setup.ini")):
 		out = open('setup.ini', 'a')
-		os.system("rm setup.ini")
 		del_settings = input("This will delete your current settings. Do you wish to continue? (Y/N)")
 		if "y" in del_settings.lower():
-			os.system("rm -R Settings")
+			os.remove("rm -R Settings")
 			os.mkdir("Settings")
 		else:
 			exit()
 
 	else:
-		os.mkdir(install_path+"Settings")
+		if not os.path.exists(install_path+"/Settings"):
+			os.mkdir(install_path+"/Settings")
 		out = open('setup.ini', 'w')
 	print("Setting up Clarissa. This should not take long.")
 	setup = open(os.environ['USERPROFILE']+"/._clarissa.py", 'w')
@@ -28,11 +30,12 @@ def setupClarissa(install_path):
 	os.environ['CLARISSA_PATH'] = install_path
 	w.setClarissaSettingWithPath("setup.ini", "main", "install", install_path)
 	w.setClarissaSetting("main", "auto_update", "true")
-	w.setClarissaSetting("speech", "hey_clarissa_enabled", "true")
-	w.setClarissaSetting("speech", "speak_out", "true")
+	w.setClarissaSetting("speech", "hey_clarissa_enabled", "false")
+	w.setClarissaSetting("speech", "speak_out", "false")
 	w.setClarissaSetting("main", "user.name", input("Your username: "))
-
-
+	cb = ChatBot('Clarissa', trainer='chatterbot.trainers.ChatterBotCorpusTrainer')
+	cb.train("chatterbot.corpus.english")
+	
 try:
 	setupClarissa(sys.argv[1])
 except IndexError:
