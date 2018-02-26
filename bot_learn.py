@@ -16,8 +16,9 @@ def learn_name(messageToBot):
         return "Clarissa: Okay. I will call you "+messageToBot.replace("Call me ", "")
 
 def learn_hobby(inputText):
-    if(hobbyText.startswith("I like to ")):
+    if(inputText.startswith("I like to ")):
         print('Clarissa: '+(respPart1[num]+(respPart2[num]+(respPart3[num]))))
-    elif(hobbyText.startswith("i like to ")):
+        return (respPart1[num]+(respPart2[num]+(respPart3[num])))
+    elif(inputText.startswith("i like to ")):
         print('Clarissa: '+(respPart1[num]+(respPart2[num]+(respPart3[num]))))
-    
+        return (respPart1[num]+(respPart2[num]+(respPart3[num])))

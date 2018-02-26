@@ -17,10 +17,10 @@ Q: Is this a finished product? A: No. Much like Minecraft, this project is and w
 Q: What is the project's goal? A: The goal is to add machine learning to a python bot. This has never been done before. We plan on having it be able to determine the next president by 2020. That feature will be deactivated by default until voting time.
 
 # Current version
-We are on version 1.1.4
+We are on version 1.1.5
 
 # What's new?
-I finally added support for custom responses from chatterbot. For efficiency's sake, it also uploads the response to the server with the command.
+I added support for Cornell Movie Dialog Corpus, custom commands for yourself. We removed the master JSON and added custom user commands JSON. I also teamed up with another developer to build this project up.
 
 # What will be in the next version?
-I will be teaming up with another software developer to hopefully get this project some traction.
+We will continue to add to the corpus.

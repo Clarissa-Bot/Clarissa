@@ -1,5 +1,3 @@
-from chatterbot import ChatBot
-from chatterbot.conversation import Statement
 import logger as log
 import urllib.request, urllib.error, urllib.parse
 import json
@@ -8,6 +6,8 @@ import sys as sys
 from urllib.request import urlopen
 import reader as sr
 import tts
+import bot_learn as bl
+import reader
 def getResponse(messageToBot):
 	try:
 		getServerBasedResponse(messageToBot)
@@ -17,12 +17,13 @@ def getResponse(messageToBot):
 def getServerBasedResponse(to_bot):
 	#Use chatterbot to come up with response
 	#Then add response to server if command is not on server
-	cb = ChatBot('Clarissa', trainer='chatterbot.trainers.ChatterBotCorpusTrainer')
+	import requests
 	url = "http://softy.xyz/apps/sites/clarissa/get.php"
-	req = urllib.request.Request(url)
-	opener = urllib.request.build_opener()
-	file = opener.open(req)
-	j = json.loads(file.read())
+	query = {'user': reader.getClarissaSettingWithPath('user.ini', 'user', 'user'),
+	'pass': reader.getClarissaSettingWithPath('user.ini', 'pass', 'pass')
+	}
+	res = requests.post(url,data=query)
+	j = json.loads(res.text)
 	text = ""
 	for line in range(len(j)):
 		if to_bot == j[line]['command']:
@@ -39,17 +40,73 @@ def getServerBasedResponse(to_bot):
 			return None
 	
 	if(sr.getClarissaSetting("speech", "speak_out") == "true"):
-		text = str(Statement(cb.get_response(to_bot)))
+		text = getChat(to_bot)
 		tts.init(text, 'en-US', False)
 	import requests as r
 	url = 'http://softy.xyz/apps/sites/clarissa/update.php'
-	query = {'c': to_bot,
-			'r': str(Statement(cb.get_response(to_bot))),
+	t = bl.learn_hobby(to_bot)
+	query2 = {
+	'u' : sr.getClarissaSettingWithPath("user.ini", "user", "user"),
+	'p' : sr.getClarissaSettingWithPath("user.ini", "pass", "pass"),
+	'c': to_bot,
+			'r': t,
+			'a': "None"}
+	res2 = r.post(url, data=query2)
+	if ( t is not ""):
+		return None
+	query = {
+	'u' : sr.getClarissaSettingWithPath("user.ini", "user", "user"),
+	'p' : sr.getClarissaSettingWithPath("user.ini", "pass", "pass"),
+	'c': to_bot,
+			'r': getChat(to_bot),
 			'a': "None"}
 	res = r.post(url, data=query)
-	print("Clarissa: "+str(Statement(cb.get_response(to_bot))))
+	print("Clarissa: "+getChat(to_bot))
 
+
+movie_lines = "corpus/movie_lines.txt"
+movie_convos = "corpus/movie_conversations.txt"
+
+def getConvos():
+	lines = open(movie_convos).read().split("\n")
+	convs = [ ]
+	for line in lines[:-1]:
+		_line = line.split(' +++$+++ ')[-1][1:-1].replace("'","").replace(" ","")
+		convs.append(_line.split(','))
+
+	return convs
+
+def get_id2line():
+
+    lines=open(movie_lines).read().split('\n')
+
+    id2line = {}
+
+    for line in lines:
+
+        _line = line.split(' +++$+++ ')
+
+        if len(_line) == 5:
+
+            id2line[_line[0]] = _line[4]
+
+    return id2line
 def getChatBasedResponse(to_bot):
-	#Get raw chat based response
-	cb = ChatBot('Clarissa', trainer='chatterbot.trainers.ChatterBotCorpusTrainer')
-	print("Clarissa: "+str(Statement(cb.get_response(to_bot))))
+	print("Clarissa: "+getChat(to_bot))
+	bl.learn_hobby(to_bot)
+def getChat(to_bot):
+	question = to_bot
+	convs = getConvos()
+	id2line = get_id2line()
+	a = ""
+	used_line = [ ]
+	for conv in convs:
+		if len(conv) %2 != 0:
+			conv = conv[:-1]
+		for i in range(len(conv)):
+			if i%2 == 0:
+				if(id2line[conv[i]] == question):
+					a = id2line[conv[i+1]]
+				elif(id2line[conv[i]].lower() == question.lower()):
+					a = id2line[conv[i+1]]
+	return a

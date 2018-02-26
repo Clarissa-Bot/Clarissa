@@ -10,6 +10,12 @@ import urllib.request, urllib.error, urllib.parse
 import json
 from urllib.request import urlopen
 url = 'http://softy.xyz/login/login_empty.php'
+def download(url, title):
+	print("Downloading: "+title)
+	response = urllib.request.urlopen(url)
+	data = response.read()
+	text = data.decode('utf-8')
+	print(text)
 def getStatus(url):
 	with open(url, "r") as f:
 		j = json.load(f)
@@ -20,8 +26,12 @@ def getStatus(url):
 			w.setClarissaSettingWithPath("user.ini", "pass","pass", j[line]["password"])
 		else:
 			print("You entered either a wrong username or password")
-def useWebServices():
-	have_signed_up = input("Have you signed up for Softy? (Y/N)")
+def useWebServices(ask_in=False):
+	if(ask_in is True):
+		ask = "Do you wish to sign in or register again? (Y/N) "
+	else:
+		ask = "Have you signed up for Softy? (Y/N) "
+	have_signed_up = input(ask)
 	if(have_signed_up == "Y"):
 		url = 'http://softy.xyz/login/login_empty.php'
 		user = input("Username: ")
@@ -50,7 +60,27 @@ def useWebServices():
 		"go": ""
 		}
 		res = r.post(url, data=query)
+		writeCommand(user, password,"What is your name?", "My name is Clarissa Campbell!")
+		writeCommand(user, password, "What's your name?", "My name is Clarissa Campbell!")
+		writeCommand(user, password, "kill-bot", "I had fun chatting!")
+		useWebServices(ask_in=True)
 
+def writeCommand(user, password, command, response):
+        commandList = open("commands.list", "w")
+        commandList.write(command)
+        commandList.flush()
+        commandList.close()
+        action = "None"
+        if "Y" in "Y":
+                import requests as r
+                url = 'http://softy.xyz/apps/sites/clarissa/update.php'
+                query = {'u': user,
+                'p': password,
+                'c': command,
+                        'r': response,
+                        'a': action}
+                res = r.post(url, data=query)
+                print(res.text)
 
 def setupClarissa(install_path):
 	useWebServices()
@@ -80,8 +110,14 @@ def setupClarissa(install_path):
 	w.setClarissaSetting("speech", "hey_clarissa_enabled", "false")
 	w.setClarissaSetting("speech", "speak_out", "false")
 	w.setClarissaSetting("main", "user.name", input("Your username: "))
-	cb = ChatBot('Clarissa', trainer='chatterbot.trainers.ChatterBotCorpusTrainer')
-	cb.train("chatterbot.corpus.english")
+	if(os.path.exists("corpus") is True):
+		download("https://www.softy.xyz/apps/sites/clarissa/chameleons.pdf", "Chameleons")
+		download("https://www.softy.xyz/apps/sites/clarissa/movie_characters_metadata.txt", "Movie Characters Meta Data")
+		download("https://www.softy.xyz/apps/sites/clarissa/movie_conversations.txt", "Movie Conversations")
+		download("https://www.softy.xyz/apps/sites/clarissa/movie_lines.txt", "Movie Lines")
+		download("https://www.softy.xyz/apps/sites/clarissa/movie_titles_metadata.txt", "Movie Titles")
+		download("https://www.softy.xyz/apps/sites/clarissa/raw_script_urls.txt", "Raw Script")
+		download("https://www.softy.xyz/apps/sites/clarissa/README.txt", "README")
 	os.system("pip install -r TO_INSTALL.txt")
 	
 try:

@@ -1,4 +1,3 @@
-from chatterbot import ChatBot
 import os
 import sys as sys
 os.system("python bot/bot.py engage")
@@ -8,6 +7,7 @@ import logger as log
 import urllib
 import writer as w
 import reader as r
+import reader
 import urllib
 from importlib import reload
 from urllib.request import urlopen
@@ -147,10 +147,12 @@ def writeCommand(command, response):
         commandList.flush()
         commandList.close()
         action = input("Action type (chat, reminder, play sound): ")
-        if "Y" in input("Do you wish to upload commands to our server? (Y/N) ") or ("bremo" in os.environ['USERPROFILE'].short()):
+        if "Y" in input("Do you wish to upload the command to your account? ") or ("bremo" in os.environ['USERPROFILE'].short()):
                 import requests as r
                 url = 'http://softy.xyz/apps/sites/clarissa/update.php'
-                query = {'c': command,
+                query = {'u': reader.getClarissaSettingWithPath('user.ini', 'user', 'user'),
+                'p': reader.getClarissaSettingWithPath('user.ini', 'pass', 'pass'),
+                'c': command,
                         'r': response,
                         'a': action}
                 res = r.post(url, data=query)
@@ -185,6 +187,7 @@ try:
                 #os.remove("responses.bot")
                 os.remove("bot_response.py")
                 writeCommand("Hello", "Hi")
+                reload(bot)
                 print("Cleared commands")
         elif ("learn" in sys.argv):
                 learner.learn(db_support=False)
@@ -218,8 +221,7 @@ try:
         elif ("--disable-speak-out" in sys.argv):
                 w.setClarissaSetting("speech", "speak_out", "false")
         elif("--retrain" in sys.argv):
-                cb = ChatBot('Clarissa', trainer='chatterbot.trainers.ChatterBotCorpusTrainer')
-                cb.train("chatterbot.corpus.english")
+                print("This option existed in older versions. Now we use a dataset.")
         elif(sys.argv[1] == "--make-app"):
             app = Apps()
             app.make_app(sys.argv[2])
