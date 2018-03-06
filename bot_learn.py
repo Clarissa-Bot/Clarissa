@@ -1,8 +1,8 @@
 import random
 
-respPart1 =['Wow, that\'s a', 'Very cool! That sounds like a', 'What an', 'That\'s an']
-respPart2 =[' fun', ' great', ' awesome', ' amazing']
-respPart3 =[' hobby!', ' passtime!', ' thing to do!', ' skill to have!']
+respPart1 =open("corpus/learn_corpus.txt", 'r').readlines()
+respPart2 =open("corpus/fun_corpus.txt", 'r').readlines()
+respPart3 =open("corpus/ending_corpus.txt", 'r').readlines()
 
 num =random.randrange(0, 4)
 

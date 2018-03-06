@@ -9,13 +9,16 @@ import requests as r
 import urllib.request, urllib.error, urllib.parse
 import json
 from urllib.request import urlopen
-url = 'http://softy.xyz/login/login_empty.php'
-def download(url, title):
+url = 'http://softy.000webhostapp.com/login/login_empty.php'
+def download(url, title, path):
 	print("Downloading: "+title)
 	response = urllib.request.urlopen(url)
 	data = response.read()
-	text = data.decode('utf-8')
-	print(text)
+	text = data
+	f = open(path, "wb")
+	f.write(text)
+	f.flush()
+	f.close()
 def getStatus(url):
 	with open(url, "r") as f:
 		j = json.load(f)
@@ -33,7 +36,7 @@ def useWebServices(ask_in=False):
 		ask = "Have you signed up for Softy? (Y/N) "
 	have_signed_up = input(ask)
 	if(have_signed_up == "Y"):
-		url = 'http://softy.xyz/login/login_empty.php'
+		url = 'http://softy.000webhostapp.com/login/login_empty.php'
 		user = input("Username: ")
 		password = input("Password: ")
 		query = {"username": user,
@@ -47,7 +50,7 @@ def useWebServices(ask_in=False):
 		getStatus("user.json")
 		os.remove("user.json")
 	else:
-		url = "http://softy.xyz/login/register_empty.php"
+		url = "http://softy.000webhostapp.com/login/register_empty.php"
 		pn = input("Phone number: ")
 		em = input("Email: ")
 		user = input("Username: ")
@@ -73,7 +76,7 @@ def writeCommand(user, password, command, response):
         action = "None"
         if "Y" in "Y":
                 import requests as r
-                url = 'http://softy.xyz/apps/sites/clarissa/update.php'
+                url = 'http://softy.000webhostapp.com/apps/sites/clarissa/update.php'
                 query = {'u': user,
                 'p': password,
                 'c': command,
@@ -110,17 +113,19 @@ def setupClarissa(install_path):
 	w.setClarissaSetting("speech", "hey_clarissa_enabled", "false")
 	w.setClarissaSetting("speech", "speak_out", "false")
 	w.setClarissaSetting("main", "user.name", input("Your username: "))
-	if(os.path.exists("corpus") is True):
-		download("https://www.softy.xyz/apps/sites/clarissa/chameleons.pdf", "Chameleons")
-		download("https://www.softy.xyz/apps/sites/clarissa/movie_characters_metadata.txt", "Movie Characters Meta Data")
-		download("https://www.softy.xyz/apps/sites/clarissa/movie_conversations.txt", "Movie Conversations")
-		download("https://www.softy.xyz/apps/sites/clarissa/movie_lines.txt", "Movie Lines")
-		download("https://www.softy.xyz/apps/sites/clarissa/movie_titles_metadata.txt", "Movie Titles")
-		download("https://www.softy.xyz/apps/sites/clarissa/raw_script_urls.txt", "Raw Script")
-		download("https://www.softy.xyz/apps/sites/clarissa/README.txt", "README")
+	if(os.path.exists("corpus") is False):
+		os.mkdir("corpus")
+		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/chameleons.pdf", "Chameleons", "corpus/chameleons.pdf")
+		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_characters_metadata.txt", "Movie Characters Meta Data", "corpus/movie_characters_metadata.txt")
+		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_conversations.txt", "Movie Conversations", "corpus/movie_conversations.txt")
+		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_lines.txt", "Movie Lines", "corpus/movie_lines.txt")
+		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_titles_metadata.txt", "Movie Titles", "corpus/movie_titles_metadata.txt")
+		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/raw_script_urls.txt", "Raw Script", "corpus/raw_script_urls.txt")
+		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/README.txt", "README", "corpus/README.txt")
 	os.system("pip install -r TO_INSTALL.txt")
 	
 try:
+	open("setup.ini", "w").write("")
 	setupClarissa(sys.argv[1])
 except IndexError:
 	print("Run python setup.py [CLARISSA_INSTALL_PATH]")

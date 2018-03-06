@@ -9,9 +9,12 @@ import tts
 import bot_learn as bl
 import reader
 def getResponse(messageToBot):
+	import requests
 	try:
 		getServerBasedResponse(messageToBot)
 	except urllib.error.HTTPError:
+		getChatBasedResponse(messageToBot)
+	except requests.exceptions.ConnectionError:
 		getChatBasedResponse(messageToBot)
 
 def getServerBasedResponse(to_bot):
@@ -42,9 +45,14 @@ def getServerBasedResponse(to_bot):
 	if(sr.getClarissaSetting("speech", "speak_out") == "true"):
 		text = getChat(to_bot)
 		tts.init(text, 'en-US', False)
+	if(getChat(to_bot) is not ""):
+		print("Clarissa: "+getChat(to_bot))
 	import requests as r
 	url = 'http://softy.xyz/apps/sites/clarissa/update.php'
+	#Learn hobby
 	t = bl.learn_hobby(to_bot)
+	if( t == ""):
+		return None
 	query2 = {
 	'u' : sr.getClarissaSettingWithPath("user.ini", "user", "user"),
 	'p' : sr.getClarissaSettingWithPath("user.ini", "pass", "pass"),
@@ -52,7 +60,8 @@ def getServerBasedResponse(to_bot):
 			'r': t,
 			'a': "None"}
 	res2 = r.post(url, data=query2)
-	if ( t is not ""):
+	#We must know if getChat response is empty for some reason
+	if ( getChat(to_bot) is ""):
 		return None
 	query = {
 	'u' : sr.getClarissaSettingWithPath("user.ini", "user", "user"),
@@ -61,7 +70,6 @@ def getServerBasedResponse(to_bot):
 			'r': getChat(to_bot),
 			'a': "None"}
 	res = r.post(url, data=query)
-	print("Clarissa: "+getChat(to_bot))
 
 
 movie_lines = "corpus/movie_lines.txt"
@@ -105,7 +113,7 @@ def getChat(to_bot):
 			conv = conv[:-1]
 		for i in range(len(conv)):
 			if i%2 == 0:
-				if(id2line[conv[i]] == question):
+				if(question == id2line[conv[i]]):
 					a = id2line[conv[i+1]]
 				elif(id2line[conv[i]].lower() == question.lower()):
 					a = id2line[conv[i+1]]

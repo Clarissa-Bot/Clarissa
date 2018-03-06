@@ -18,6 +18,7 @@ import tts
 import shutil
 from libs.cpu import CPU
 from libs.apps import Apps
+from threading import Thread
 #Allow the user to communicate with the bot
 #Also allow the bot to learn about the person
 def getSpeech():
@@ -170,10 +171,31 @@ def getCommands():
 def getResponses():
 	return open("responses.bot", "r").read()
 
-
+def updateCorpus():
+    download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/chameleons.pdf", "Chameleons", "corpus/chameleons.pdf", delete=True)
+    download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_characters_metadata.txt", "Movie Characters Meta Data", "corpus/movie_characters_metadata.txt", delete=True)
+    download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_conversations.txt", "Movie Conversations", "corpus/movie_conversations.txt")
+    download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_lines.txt", "Movie Lines", "corpus/movie_lines.txt", delete=True)
+    download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_titles_metadata.txt", "Movie Titles", "corpus/movie_titles_metadata.txt", delete=True)
+    download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/raw_script_urls.txt", "Raw Script", "corpus/raw_script_urls.txt", delete=True)
+    download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/README.txt", "README", "corpus/README.txt", delete=True)
+def download(url, title, path, delete=False):
+    if(os.path.exists(path) and delte is True):
+        os.remove(path)
+    print("Downloading: "+title)
+    response = urllib.request.urlopen(url)
+    data = response.read()
+    text = data
+    f = open(path, "wb")
+    f.write(text)
+    f.flush()
+    f.close()
 swearNum = 0
 time = datetime.datetime.now()
-start_time = time_check.time()
+hour_min = (time.hour+time.minute)
+if(hour_min is 1):
+    bt = Thread(target=updateCorpus)
+    bt.start()
 print("Welcome to Clarissa. If you need any help, run python bot.py --help")
 if(r.getClarissaSetting("main","auto_update") is "true"):
         if(" 12:" or " 6:" in time):
@@ -225,6 +247,8 @@ try:
         elif(sys.argv[1] == "--make-app"):
             app = Apps()
             app.make_app(sys.argv[2])
+        elif(sys.argv[1] == "--text"):
+            bot.getResponse(sys.argv[2])
         elif("--help" in sys.argv or "--h" in sys.argv):
                 print("Commands:")
                 print("\t--add-command : Adds command to Clarissa")
