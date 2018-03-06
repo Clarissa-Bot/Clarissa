@@ -4,3 +4,5 @@ SpeechRecognition
 PyAudio
 beautifulsoup4
 chatterbot
+pywin32
+termcolor

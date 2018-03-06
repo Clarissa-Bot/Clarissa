@@ -14,7 +14,7 @@ class Apps:
 
 	def run(self, app_name):
 		if(self.does_app_exist(app_name) == True):
-			os.system(os.path.expanduser("~")+"/CApps/"+app_name+"/main.py")
+			os.system("python "+os.path.expanduser("~")+"/CApps/"+app_name+"/main.py")
 
 	def does_app_exist(self,app_name):
 		if(os.path.expanduser("~")+"/CApps"):

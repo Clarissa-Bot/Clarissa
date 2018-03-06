@@ -73,8 +73,7 @@ def toBot(messageToBot):
                     elif(messageToBot == "kill-bot"):
                             exit()
                     elif(messageToBot == "--clear-commands"):
-                       #os.remove("commands.bot")
-                       #os.remove("responses.bot")]
+                            os.remove("chat.log")
                             print("Cleared commands")
                             exit()
                     elif(messageToBot == "learn"):
@@ -249,6 +248,17 @@ try:
             app.make_app(sys.argv[2])
         elif(sys.argv[1] == "--text"):
             bot.getResponse(sys.argv[2])
+        elif(sys.argv[1] == "--run-app"):
+            messageToBot = sys.argv[2]
+            apps = Apps()
+            if(apps.does_app_exist(messageToBot.replace("Run ","")) == True):
+                apps.run(messageToBot.replace("Run ",""))
+            else:
+                print(messageToBot.replace("Run ","")+" was not found")
+                if(clarissa_voice_recognition_enabled == True):
+                    toBot(messageToBot=getSpeech())
+                else:
+                    toBot(messageToBot=input(r.getClarissaSetting("main","user.name")+": "))
         elif("--help" in sys.argv or "--h" in sys.argv):
                 print("Commands:")
                 print("\t--add-command : Adds command to Clarissa")
@@ -268,6 +278,7 @@ try:
                 print("\t--disable-speak-out: Stays to classic input output")
                 print("\t--retrain: Retrains this bot")
                 print("\t--make-app: Builds sample app to CApps directory (--make-app [APP_NAME])")
+                print("\t--run-app: Runs app (python bot.py --run-app [APP_NAME])")
                 print("\t--h / --help : Prints this list")
         else:
                 if(clarissa_voice_recognition_enabled is True):
