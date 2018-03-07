@@ -17,10 +17,10 @@ Q: Is this a finished product? A: No. Much like Minecraft, this project is and w
 Q: What is the project's goal? A: The goal is to add machine learning to a python bot. This has never been done before. We plan on having it be able to determine the next president by 2020. That feature will be deactivated by default until voting time.
 
 # Current version
-We are on version 1.1.5
+We are on version 1.1.6
 
 # What's new?
-I added support for Cornell Movie Dialog Corpus, custom commands for yourself. We removed the master JSON and added custom user commands JSON. I also teamed up with another developer to build this project up.
+TTS was disabled permanently until we find a way to use other alternatives. We also removed the use of .ini files, so please re-run setup.py. We also added more commands to be used by developers in their own CApps (Clarissa Apps).
 
 # What will be in the next version?
-We will continue to add to the corpus.
+We will continue to add to the corpus. We will also add some more developer friendly commands and functions. Miht even create a user interface.
