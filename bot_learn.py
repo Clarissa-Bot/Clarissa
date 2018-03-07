@@ -4,7 +4,9 @@ respPart1 =open("corpus/learn_corpus.txt", 'r').readlines()
 respPart2 =open("corpus/fun_corpus.txt", 'r').readlines()
 respPart3 =open("corpus/ending_corpus.txt", 'r').readlines()
 
-num =random.randrange(0, 4)
+num =random.randrange(0, 6)
+num0 =random.randrange(0, 6)
+num1 =random.randrange(0, 3)
 
 def learn(db_support):
     print("Learning data")
@@ -17,8 +19,8 @@ def learn_name(messageToBot):
 
 def learn_hobby(inputText):
     if(inputText.startswith("I like to ")):
-        print('Clarissa: '+(respPart1[num]+(respPart2[num]+(respPart3[num]))))
-        return (respPart1[num]+(respPart2[num]+(respPart3[num])))
+        print('Clarissa: '+(respPart1[num]+(respPart2[num0]+(respPart3[num1]))))
+        return (respPart1[num]+(respPart2[num0]+(respPart3[num1])))
     elif(inputText.startswith("i like to ")):
-        print('Clarissa: '+(respPart1[num]+(respPart2[num]+(respPart3[num]))))
-        return (respPart1[num]+(respPart2[num]+(respPart3[num])))
+        print('Clarissa: '+(respPart1[num]+(respPart2[num0]+(respPart3[num1]))))
+        return (respPart1[num]+(respPart2[num0]+(respPart3[num1])))
