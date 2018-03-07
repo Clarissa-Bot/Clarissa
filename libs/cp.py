@@ -47,8 +47,15 @@ if "win32" in sys.platform:
             raise e
 
 elif sys.platform in ('linux2'):
-    from _affinity import set_process_affinity_mask, get_process_affinity_mask
 
+    def _get_handle_for_pid(pid, ro=True):
+        pass
+
+    def set_process_affinity_mask(pid, value):
+        pass
+
+    def get_process_affinity_mask(pid):
+        pass
 else:
     def set_process_affinity_mask(pid, value):
         raise NotImplementedError

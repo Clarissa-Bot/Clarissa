@@ -1,7 +1,7 @@
 import sys as sys
 import os
 import shutil
-os.system("python "+os.environ["USERPROFILE"]+"/._clarissa.py")
+os.system("python "+os.path.expanduser("~")+"/._clarissa.py")
 false = False
 true = True
 

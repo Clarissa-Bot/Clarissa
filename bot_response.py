@@ -90,7 +90,7 @@ movie_lines = "corpus/movie_lines.txt"
 movie_convos = "corpus/movie_conversations.txt"
 
 def getConvos():
-	lines = open(movie_convos).read().split("\n")
+	lines = open(movie_convos,encoding = "ISO-8859-1").read().split("\n")
 	convs = [ ]
 	for line in lines[:-1]:
 		_line = line.split(' +++$+++ ')[-1][1:-1].replace("'","").replace(" ","")
@@ -100,7 +100,7 @@ def getConvos():
 
 def get_id2line():
 
-    lines=open(movie_lines).read().split('\n')
+    lines=open(movie_lines,encoding = "ISO-8859-1").read().split('\n')
 
     id2line = {}
 

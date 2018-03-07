@@ -19,6 +19,7 @@ import shutil
 from libs.cpu import CPU
 from libs.apps import Apps
 from threading import Thread
+from zipify.zipify import PAR
 #Allow the user to communicate with the bot
 #Also allow the bot to learn about the person
 def getSpeech():
@@ -259,6 +260,16 @@ try:
                     toBot(messageToBot=getSpeech())
                 else:
                     toBot(messageToBot=input(r.getClarissaSetting("main","user.name")+": "))
+        elif(sys.argv[1] == "--install-app"):
+            if(".cpk" in sys.argv[2]):
+                p = PAR(sys.argv[2])
+                p.depackage()
+                
+            else:
+                print("Failed to install app: Archive is not a valid Clarissa package.")
+        elif(sys.argv[1] == "--build-app"):
+            p = PAR(sys.argv[2])
+            p.package(sys.argv[2], sys.argv[3])
         elif("--help" in sys.argv or "--h" in sys.argv):
                 print("Commands:")
                 print("\t--add-command : Adds command to Clarissa")
@@ -278,7 +289,9 @@ try:
                 print("\t--disable-speak-out: Stays to classic input output")
                 print("\t--retrain: Retrains this bot")
                 print("\t--make-app: Builds sample app to CApps directory (--make-app [APP_NAME])")
+                print("\t--install-app: Installs application to Clarissa (--install-app [CPK_PATH])")
                 print("\t--run-app: Runs app (python bot.py --run-app [APP_NAME])")
+                print("\t--build-app: Builds application to .cpk (--build-app APP_PATH CPK_NAME)")
                 print("\t--h / --help : Prints this list")
         else:
                 if(clarissa_voice_recognition_enabled is True):

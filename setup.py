@@ -105,7 +105,7 @@ def setupClarissa(install_path):
 			os.mkdir(install_path+"/Settings")
 		out = open('setup.ini', 'w')
 	print("Setting up Clarissa. This should not take long.")
-	setup = open(os.environ['USERPROFILE']+"/._clarissa.py", 'w')
+	setup = open(os.path.expanduser("~")+"/._clarissa.py", 'w')
 	setup.write("import os\n")
 	setup.write("os.environ['CLARISSA_PATH']=r\""+install_path+"\"")
 	setup.flush()
@@ -128,6 +128,7 @@ def setupClarissa(install_path):
 	os.system("python -m pip install -r TO_INSTALL.txt")
 	
 try:
+	open("setup.ini", "w")
 	w.setClarissaSetting("clarissa", "name", "Clarissa")
 	setupClarissa(sys.argv[1])
 except IndexError:

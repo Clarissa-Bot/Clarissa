@@ -38,6 +38,12 @@ def setClarissaSettingWithPath(path, conf_sec, key, value):
 	f.flush()
 	f.close()
 def setClarissaSetting(conf_sec,key, value):
-	os.environ['CLARISSA_PATH'] = reader.getClarissaSettingWithPath("setup.ini", "main", "install")
-	setting_path = os.environ['CLARISSA_PATH']+"/Settings/Clarissa.ini"
-	setClarissaSettingWithPath(setting_path, conf_sec, key, value)
+	if(reader.getClarissaSettingWithPath("setup.ini", "main","install") is not None):
+		os.environ['CLARISSA_PATH'] = reader.getClarissaSettingWithPath("setup.ini", "main", "install")
+		setting_path = os.environ['CLARISSA_PATH']+"/Settings/Clarissa.ini"
+		setClarissaSettingWithPath(setting_path, conf_sec, key, value)
+	else:
+		if(os.path.exists("Settings") is False):
+			os.mkdir("Settings")
+		setting_path = "Settings/Clarissa.ini"
+		setClarissaSettingWithPath(setting_path, conf_sec, key, value)
