@@ -29,15 +29,12 @@ def setClarissaSettingWithPath(path, conf_sec, key, value):
 		f = open(path, 'a')
 	else:
 		f = open(path, 'w')
-	try:
-		content = open(path, "r").readlines()
-		s.add_section(conf_sec)
-	except DuplicateSectionError:
-		pass
-	except NoSectionError:
-		s.add_section(conf_sec)
-	s.set(conf_sec, key, value)
-	s.write(f)
+	repl = open(path, "r")
+	result = ""
+	for line in repl.readlines():
+		if( "["+key+"] => " in line):
+			replace(path, line, "")
+	f.write("\n["+key+"] => "+value)
 	f.flush()
 	f.close()
 def setClarissaSetting(conf_sec,key, value):

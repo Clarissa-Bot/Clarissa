@@ -10,8 +10,12 @@ s = SafeConfigParser(strict=False)
 def getClarissaSetting(section,key):
 	os.environ['CLARISSA_PATH'] = getClarissaSettingWithPath("setup.ini", "main", "install")
 	install_loc = os.environ['CLARISSA_PATH']+"/Settings/Clarissa.ini"
-	s.read(install_loc)
-	return s.get(section, key)
+	return getClarissaSettingWithPath(install_loc, section, key)
 def getClarissaSettingWithPath(path, section, key):
-	s.read(path)
-	return s.get(section, key)
+	f = open(path, "r")
+	lines = f.readlines()
+	for line in lines:
+		if( "["+key+"] => " in line ):
+			line = line.replace("["+key+"] => ", "")
+			line = line.replace("\n", "")
+			return line

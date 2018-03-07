@@ -6,14 +6,9 @@ import tempfile
 from playsound import playsound
 import shutil
 def init(to_speak, language, is_slow):
-	if(os.path.isdir('Audio') == False):
-		os.mkdir("Audio")
-	file_name = ''.join([choice("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ") for i in range(5)])
-	file_name = file_name+".mp3"
-	text = to_speak
-	lang = language
-	slow = is_slow
-	play(file_name, to_speak, language, is_slow)
+	print("We are working on improving tts")
+	import writer
+	writer.setClarissaSetting("main","speak_out", "false")
 
 def play(file,text,lang,slow):
 	tts = gTTS(text=text, lang=lang, slow=slow)

@@ -27,8 +27,12 @@ class Apps:
 
 	def make_app(self, app_name):
 		if(os.path.exists(os.path.expanduser("~")+"/CApps") is False):
-			os.mkdir(os.path.exists(os.path.expanduser("~")+"/CApps"))
+			os.mkdir(os.path.expanduser("~")+"/CApps")
+		if(os.path.exists(os.path.expanduser("~")+"/CApps/"+app_name)) is True:
+			print("App already exists!")
+			exit()
 		os.mkdir(os.path.expanduser("~")+"/CApps/"+app_name)
+		os.environ[app_name] = (os.path.expanduser("~")+"/CApps/"+app_name)
 		cl_path = str(bot_learn.__file__)
 		cl_path = cl_path.replace("\\", "/")
 		cl_path = cl_path.replace("bot_learn.py", "")

@@ -8,6 +8,16 @@ import reader as sr
 import tts
 import bot_learn as bl
 import reader
+import writer
+
+def get_name():
+	return reader.getClarissaSetting("clarissa", "name")
+
+cbot_name = get_name()
+
+def set_name(bot_name):
+	writer.setClarissaSetting("clarissa", "name", bot_name)
+
 def getResponse(messageToBot):
 	import requests
 	try:
@@ -33,26 +43,30 @@ def getServerBasedResponse(to_bot):
 			if(sr.getClarissaSetting("speech", "speak_out") == "true"):
 				text = j[line]['reply']
 				tts.init(text, 'en-US', False)
-			print("Clarissa: "+j[line]['reply'])
+			print(cbot_name+": "+j[line]['reply'])
 			return None
 		elif to_bot.lower() in j[line]['command'].lower():
 			if(sr.getClarissaSetting("speech", "speak_out") == "true"):
 				text = j[line]['reply']
 				tts.init(text, 'en-US', False)
-			print("Clarissa: "+j[line]['reply'])
+			print(cbot_name+": "+j[line]['reply'])
 			return None
 	
 	if(sr.getClarissaSetting("speech", "speak_out") == "true"):
 		text = getChat(to_bot)
 		tts.init(text, 'en-US', False)
 	if(getChat(to_bot) is not ""):
-		print("Clarissa: "+getChat(to_bot))
+		print(cbot_name+": "+getChat(to_bot))
 	import requests as r
 	url = 'http://softy.xyz/apps/sites/clarissa/update.php'
 	#Learn hobby
 	t = bl.learn_hobby(to_bot)
 	if( t == ""):
 		return None
+
+	if(sr.getClarissaSetting("speech", "speak_out") == "true"):
+		text = t
+		tts.init(text, 'en-US', False)
 	query2 = {
 	'u' : sr.getClarissaSettingWithPath("user.ini", "user", "user"),
 	'p' : sr.getClarissaSettingWithPath("user.ini", "pass", "pass"),
@@ -100,7 +114,7 @@ def get_id2line():
 
     return id2line
 def getChatBasedResponse(to_bot):
-	print("Clarissa: "+getChat(to_bot))
+	print(cbot_name+": "+getChat(to_bot))
 	bl.learn_hobby(to_bot)
 def getChat(to_bot):
 	question = to_bot

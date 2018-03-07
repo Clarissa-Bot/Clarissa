@@ -49,6 +49,9 @@ def useWebServices(ask_in=False):
 		f.close()
 		getStatus("user.json")
 		os.remove("user.json")
+		writeCommand(user, password,"What is your name?", "My name is Clarissa Campbell!")
+		writeCommand(user, password, "What's your name?", "My name is Clarissa Campbell!")
+		writeCommand(user, password, "kill-bot", "I had fun chatting!")
 	else:
 		url = "http://softy.000webhostapp.com/login/register_empty.php"
 		pn = input("Phone number: ")
@@ -122,10 +125,10 @@ def setupClarissa(install_path):
 		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_titles_metadata.txt", "Movie Titles", "corpus/movie_titles_metadata.txt")
 		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/raw_script_urls.txt", "Raw Script", "corpus/raw_script_urls.txt")
 		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/README.txt", "README", "corpus/README.txt")
-	os.system("pip install -r TO_INSTALL.txt")
+	os.system("python -m pip install -r TO_INSTALL.txt")
 	
 try:
-	open("setup.ini", "w").write("")
+	w.setClarissaSetting("clarissa", "name", "Clarissa")
 	setupClarissa(sys.argv[1])
 except IndexError:
 	print("Run python setup.py [CLARISSA_INSTALL_PATH]")

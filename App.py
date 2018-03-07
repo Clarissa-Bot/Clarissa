@@ -44,3 +44,6 @@ class App:
 		return open(path, "r").readlines()
 	def write(self, path):
 		return open(path, "w")
+	def set_name(self, name):
+		#Set the name for your app if you're building a chatbot
+		bot_response.set_name(name)
