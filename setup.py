@@ -115,7 +115,7 @@ def setupOfflineClarissa(install_path):
 	setup.close()
 	os.environ['CLARISSA_PATH'] = install_path
 	w.setClarissaSettingWithPath("setup.rif", "main", "install", install_path)
-	w.setClarissaSetting("main", "auto_update", "true")
+	w.setClarissaSetting("main", "auto_update", "false")
 	w.setClarissaSetting("speech", "hey_clarissa_enabled", "false")
 	w.setClarissaSetting("speech", "speak_out", "false")
 	w.setClarissaSetting("main", "user.name", input("Your username: "))
@@ -144,7 +144,7 @@ def setupClarissa(install_path):
 	setup.close()
 	os.environ['CLARISSA_PATH'] = install_path
 	w.setClarissaSettingWithPath("setup.rif", "main", "install", install_path)
-	w.setClarissaSetting("main", "auto_update", "true")
+	w.setClarissaSetting("main", "auto_update", "false")
 	w.setClarissaSetting("speech", "hey_clarissa_enabled", "false")
 	w.setClarissaSetting("speech", "speak_out", "false")
 	w.setClarissaSetting("main", "user.name", input("Your username: "))

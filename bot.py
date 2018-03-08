@@ -22,17 +22,23 @@ from zipify.zipify import PAR
 #Allow the user to communicate with the bot
 #Also allow the bot to learn about the person
 def getSpeech():
+        #Initialize speech recognizer as reader
         reader = speech_recognizer.Recognizer()
+        #Open speech recognizer
         with speech_recognizer.Microphone() as mic:
+            #Listen for those sweet, sweet vocals
               audio = reader.listen(mic)
         try:
+                #Remind them they are awesome
                 print(r.getClarissaSetting("main","user.name")+": "+reader.recognize_google(audio))
                 return reader.recognize_google(audio)
         except speech_recognizer.UnknownValueError:
+                #Fuck, we fucked up
                 if(r.getClarissaSetting("speech", "speak_out") == "true"):
                     tts.init("I'm sorry. I could not understand that.", 'en-US', False)
                 print("Clarissa: I'm sorry. I could not understand that")
         except speech_recognizer.RequestError as error:
+                #Fucking fuck cant keep fucking up shit fuck!
                 if("recognition connection failed" in "{0}".format(error)):
                         if(r.getClarissaSetting("speech", "speak_out") == "true"):
                             tts.init("I need an internet connection for speech recognition. I will disable speech recognition. You can later re-enable it by running python bot.py --enable-speech-recognition", 'en-US', False)
@@ -44,61 +50,74 @@ def getSpeech():
                 if(r.getClarissaSetting("speech", "speak_out") == "true"):
                     tts.init("Could not process {0}".format(error), 'en-US', False)
         except (KeyboardInterrupt, SystemExit):
-            shutil.rmtree("Audio/", True)
+            #shutil.rmtree("Audio/", True)
             bot.getResponse("kill-bot")
+#Check if voice recognition is enabled
+#If so, alter clarissa_voice_recognition_enabled
 clarissa_voice_recognition_enabled = False
 if(r.getClarissaSetting("speech", "hey_clarissa_enabled") == "true"):
         clarissa_voice_recognition_enabled = True
+#Replace def to replace pattern in file
 def replace(file_path, pattern, subst):
         read = open(file_path, 'r')
         write = open(file_path, 'w')
         lines = read.read()
         print(read.read().replace(pattern, subst))
-
+#Here is the gold!
 def toBot(messageToBot):
     try:
+            #Reload the bot and learner modules
             reload(bot)
             reload(learner)
+            #If the message is none, go to getSpeech(), as that is
+            #When we are needed
             if(messageToBot == None):
                     messageToBot = getSpeech()
+            #Not relevant. Ignore, otherwise whole application combusts
+            #Into an eternal pit of fire
             if(os.path.isfile(".bot_engage")):
                     print("You can only run one instance of Clarissa.")
             else:
+                    #Not relevant, yet still works
                     swearNum = 1
+                    #Remind the computer where CLARISSA_PATH is
                     os.environ['CLARISSA_PATH'] = r.getClarissaSettingWithPath("setup.rif", "main", "install")
+                    #Just for shits and giggles, remind the computer who the user name is!
                     os.environ['USER_NAME'] = r.getClarissaSetting("main","user.name")
                     if(messageToBot == "--add-command"):
+                            #Write command to server
                             writeCommand(command=input("Command: "), response=input("Responses: "))
                             reload(bot)
                     elif(messageToBot == "kill-bot"):
+                            #Die, die, die!
                             exit()
                     elif(messageToBot == "--clear-commands"):
+                            #Leave for multi-user computers. Clears the command list that is written.
                             os.remove("chat.log")
                             print("Cleared commands")
                             exit()
                     elif(messageToBot == "learn"):
+                            #Ancient code, but will be used sometime soon.
                             learner.learn(db_support=False)
                     elif(messageToBot == "--get-commands"):
+                            #Print out commands
                             commandsList = open("commands.list","r")
                             print(commandsList.read())
                     elif(messageToBot == "--get-logs"):
+                            #Print out what has been said
                             logs = open('chat.log', 'r')
                             print(logs.read())
                     elif(messageToBot == "--update-clarissa"):
-                            urllib.urlopen("https://softy.xyz/apps/sites/clarissa/get.php")
-                            response = urllib.request.urlopen("https://softy.xyz/apps/sites/clarissa/clarissa.json")
-                            import json
-                            file = json.loads(response.read())
-                            print(file['command'])
+                            toBot("Hello!")
                     elif(messageToBot == "list the commands"):
-                        file = open("commands.list", 'r')
-                        for line in file.readlines():
-                            print("Clarissa: "+line)
+                            toBot("Hello!")
                     elif("Call me " in messageToBot):
                             w.setClarissaSetting("main","user.name", messageToBot.replace("Call me ", ""))
                     elif("call me " in messageToBot):
                             w.setClarissaSetting("main","user.name", messageToBot.replace("call me ", ""))
                     elif("Run " in messageToBot):
+                        #Runs an installed application
+                        #Thank the lord I placed the code in another module
                         apps = Apps()
                         if(apps.does_app_exist(messageToBot.replace("Run ","")) == True):
                             apps.run(messageToBot.replace("Run ",""))
@@ -110,6 +129,7 @@ def toBot(messageToBot):
                             else:
                                 toBot(messageToBot=input(r.getClarissaSetting("main","user.name")+": "))
                     elif("run " in messageToBot):
+                        #Same deal, but lower case
                         apps = Apps()
                         if(apps.does_app_exist(messageToBot.replace("run ","")) == True):
                             apps.run(messageToBot.replace("run ",""))
@@ -121,26 +141,37 @@ def toBot(messageToBot):
                             else:
                                 toBot(messageToBot=input(r.getClarissaSetting("main","user.name")+": "))
                     elif("Make app" in messageToBot):
+                        #Create an app
                         apps = Apps()
                         apps.make_app(input("App name:"))
                     elif("make app" in messageToBot):
+                        #Same deal but in lower case
                         apps = Apps()
                         apps.make_app(input("App name:"))
-
+                    #Log what was said for later review by user
                     log.log("chat.log", messageToBot)
+                    #Initialize cpu hopper
                     cpu_def = CPU()
+                    #Will only work on Windows, temporarily
                     cpu_def.run_code(code=bot.getResponse(messageToBot))
+                    #Check if speech recognition is enabled
+                    #If it is, messageToBot is None
                     if(clarissa_voice_recognition_enabled == True):
                             toBot(messageToBot=getSpeech())
                     else:
                             toBot(messageToBot=input(r.getClarissaSetting("main","user.name")+": "))
     except TypeError:
+        #If there is an error, check if speech recognition is enabled
         if(clarissa_voice_recognition_enabled is True):
+            #Use voice
             toBot(getSpeech())
         else:
+            #Use normal
             toBot(messageToBot=input(r.getClarissaSetting("main","user.name")+": "))
     except (KeyboardInterrupt, SystemExit):
+        #End on exit, 100% will fail first 5 seconds. Not my problem, user.
         bot.getResponse("kill-bot")
+#Write a command to your own account
 def writeCommand(command, response):
         commandList = open("commands.list", "w")
         commandList.write(command)
@@ -157,20 +188,16 @@ def writeCommand(command, response):
                         'a': action}
                 res = r.post(url, data=query)
                 print(res.text)
-
+#Do a check if a string equals a string
+#Don't judge, I was lazy.
 def getIf(message, command, response):
 	if(message == command):
 		print("Clarissa: "+response)
 	else:
 		print("I do not understand "+message)
 
-def getCommands():
-	return open("commands.bot", "r").read()
-
-def getResponses():
-	return open("responses.bot", "r").read()
-
 def updateCorpus():
+    #Download corpus from server if asked to
     download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/chameleons.pdf", "Chameleons", "corpus/chameleons.pdf", delete=True)
     download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_characters_metadata.txt", "Movie Characters Meta Data", "corpus/movie_characters_metadata.txt", delete=True)
     download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_conversations.txt", "Movie Conversations", "corpus/movie_conversations.txt")
@@ -179,6 +206,7 @@ def updateCorpus():
     download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/raw_script_urls.txt", "Raw Script", "corpus/raw_script_urls.txt", delete=True)
     download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/README.txt", "README", "corpus/README.txt", delete=True)
 def download(url, title, path, delete=False):
+    #Given the name, you do know what this is, right?
     if(os.path.exists(path) and delte is True):
         os.remove(path)
     print("Downloading: "+title)
@@ -192,10 +220,12 @@ def download(url, title, path, delete=False):
 swearNum = 0
 time = datetime.datetime.now()
 hour_min = (time.hour+time.minute)
-if(hour_min is 1):
+if(hour_min is 1) and (r.getClarissaSetting("main", "auto_update") is "true"):
+    #Update at 1 AM ONLY if auto update is on
     bt = Thread(target=updateCorpus)
     bt.start()
 print("Welcome to Clarissa. If you need any help, run python bot.py --help")
+#Check if auto update is enabled
 if(r.getClarissaSetting("main","auto_update") is "true"):
         if(" 12:" or " 6:" in time):
                 os.system("python update.py")

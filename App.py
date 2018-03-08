@@ -14,7 +14,7 @@ class App:
 		#Ask Clarissa something
 		bot_response.getResponse(text)
 	def get_result(self, key):
-		#Get key results
+		#Get key results from info.rif
 		f = open(self.path+"/info.rif", "r")
 		text = f.readlines()
 		result = ["Null"]
@@ -29,6 +29,10 @@ class App:
 		#Update the whole project
 		title = self.get_name()
 		url = self.get_update_url()
+		#Check if URL is blank
+		if(url == ""):
+			print("Update url is not set. Add [update_url] => URL to info.rif")
+			exit()
 		print("Downloading: "+title)
 		response = urllib.request.urlopen(url)
 		data = response.read()
