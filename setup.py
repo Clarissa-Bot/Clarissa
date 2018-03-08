@@ -9,6 +9,7 @@ import requests as r
 import urllib.request, urllib.error, urllib.parse
 import json
 from urllib.request import urlopen
+import shutil
 import requests
 url = 'http://softy.000webhostapp.com/login/login_empty.php'
 def download(url, title, path):
@@ -97,7 +98,7 @@ def setupOfflineClarissa(install_path):
 		out = open('setup.rif', 'a')
 		del_settings = input("This will delete your current settings. Do you wish to continue? (Y/N)")
 		if "y" in del_settings.lower():
-			os.remove("rm -R Settings")
+			shutil.rmtree("Settings")
 			os.mkdir("Settings")
 		else:
 			exit()
@@ -169,6 +170,16 @@ def internet_on():
     except urllib.error.URLError as err:
     	return False
 try:
+	if(sys.argv[1] == "--reset"):
+		os.remove("commands.list")
+		os.remove("setup.rif")
+		os.remove("user.rif")
+		shutil.rmtree("Settings")
+		shutil.rmtree("Apps")
+		shutil.rmtree("__pycache__")
+		shutil.rmtree("libs/__pycache__")
+		shutil.rmtree("zipify/__pycache__")
+		exit()
 	open("setup.rif", "w")
 	w.setClarissaSetting("clarissa", "name", "Clarissa")
 	if(internet_on() is False):
@@ -177,6 +188,7 @@ try:
 	setupClarissa(sys.argv[1])
 except IndexError:
 	print("Run python setup.py [CLARISSA_INSTALL_PATH]")
+	print("Or run python setup.py --reset to reset Clarissa to default")
 except requests.exceptions.ConnectionError:
 	print("Offline setup!")
 	setupOfflineClarissa(sys.argv[1])

@@ -261,15 +261,26 @@ try:
                 else:
                     toBot(messageToBot=input(r.getClarissaSetting("main","user.name")+": "))
         elif(sys.argv[1] == "--install-app"):
+            fp = os.path.expanduser("~")+"/CApps/"+sys.argv[2]+"/build/master.cpk"
+            p = PAR(fp)
+            p.depackage()
+            print("Installed "+sys.argv[2])
+            
+        elif(sys.argv[1] == "--install-app" and "--from-external" in sys.argv):
             if(".cpk" in sys.argv[2]):
-                p = PAR(sys.argv[2])
+                fp = sys.argv[2]
+                p = PAR(fp)
                 p.depackage()
-                
+                print("Installed "+sys.argv[2])
             else:
                 print("Failed to install app: Archive is not a valid Clarissa package.")
         elif(sys.argv[1] == "--build-app"):
+            fp = os.path.expanduser("~")+"/CApps/"+sys.argv[2]
+            p = PAR(fp)
+            p.package(fp, sys.argv[3])
+        elif(sys.argv[1] == "--build-app" and "--from-external" in sys.argv[4]):
             p = PAR(sys.argv[2])
-            p.package(sys.argv[2], sys.argv[3])
+            p.package(fp, sys.argv[3])
         elif("--help" in sys.argv or "--h" in sys.argv):
                 print("Commands:")
                 print("\t--add-command : Adds command to Clarissa")
