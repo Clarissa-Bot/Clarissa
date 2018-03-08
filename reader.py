@@ -8,8 +8,8 @@ except ImportError:
 s = SafeConfigParser(strict=False)
 #Get Clarissa setting
 def getClarissaSetting(section,key):
-	os.environ['CLARISSA_PATH'] = getClarissaSettingWithPath("setup.ini", "main", "install")
-	install_loc = os.environ['CLARISSA_PATH']+"/Settings/Clarissa.ini"
+	os.environ['CLARISSA_PATH'] = getClarissaSettingWithPath("setup.rif", "main", "install")
+	install_loc = os.environ['CLARISSA_PATH']+"/Settings/Clarissa.rif"
 	return getClarissaSettingWithPath(install_loc, section, key)
 def getClarissaSettingWithPath(path, section, key):
 	f = open(path, "r")

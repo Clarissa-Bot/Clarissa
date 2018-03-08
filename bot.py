@@ -66,7 +66,7 @@ def toBot(messageToBot):
                     print("You can only run one instance of Clarissa.")
             else:
                     swearNum = 1
-                    os.environ['CLARISSA_PATH'] = r.getClarissaSettingWithPath("setup.ini", "main", "install")
+                    os.environ['CLARISSA_PATH'] = r.getClarissaSettingWithPath("setup.rif", "main", "install")
                     os.environ['USER_NAME'] = r.getClarissaSetting("main","user.name")
                     if(messageToBot == "--add-command"):
                             writeCommand(command=input("Command: "), response=input("Responses: "))
@@ -229,7 +229,7 @@ try:
         elif ( sys.argv[1] == "--update-from-url" ):
                 os.system("python update.py --from-url "+sys.argv[2])
         elif ( "--enable-auto-update" in sys.argv):
-                w.setClarissaSettingWithPath("Settings/Clarissa.ini","update","Clarissa.AUTO_UPDATE", "true")
+                w.setClarissaSettingWithPath("Settings/Clarissa.rif","update","Clarissa.AUTO_UPDATE", "true")
         elif ("--update-bot" in sys.argv):
                 os.system("python update.py")
         elif (sys.argv[1] == "--set-setting"):

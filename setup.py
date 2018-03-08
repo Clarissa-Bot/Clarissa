@@ -25,8 +25,8 @@ def getStatus(url):
 	text = ""
 	for line in range(len(j)):
 		if(j[line]["status"] == "OKAY"):
-			w.setClarissaSettingWithPath("user.ini", "user", "user", j[line]["username"])
-			w.setClarissaSettingWithPath("user.ini", "pass","pass", j[line]["password"])
+			w.setClarissaSettingWithPath("user.rif", "user", "user", j[line]["username"])
+			w.setClarissaSettingWithPath("user.rif", "pass","pass", j[line]["password"])
 		else:
 			print("You entered either a wrong username or password")
 def useWebServices(ask_in=False):
@@ -90,8 +90,8 @@ def writeCommand(user, password, command, response):
 
 def setupClarissa(install_path):
 	useWebServices()
-	os.remove("setup.ini")
-	if(os.path.isfile("setup.ini")):
+	os.remove("setup.rif")
+	if(os.path.isfile("setup.rif")):
 		out = open('setup.ini', 'a')
 		del_settings = input("This will delete your current settings. Do you wish to continue? (Y/N)")
 		if "y" in del_settings.lower():
@@ -111,7 +111,7 @@ def setupClarissa(install_path):
 	setup.flush()
 	setup.close()
 	os.environ['CLARISSA_PATH'] = install_path
-	w.setClarissaSettingWithPath("setup.ini", "main", "install", install_path)
+	w.setClarissaSettingWithPath("setup.rif", "main", "install", install_path)
 	w.setClarissaSetting("main", "auto_update", "true")
 	w.setClarissaSetting("speech", "hey_clarissa_enabled", "false")
 	w.setClarissaSetting("speech", "speak_out", "false")
@@ -128,7 +128,7 @@ def setupClarissa(install_path):
 	os.system("python -m pip install -r TO_INSTALL.txt")
 	
 try:
-	open("setup.ini", "w")
+	open("setup.rif", "w")
 	w.setClarissaSetting("clarissa", "name", "Clarissa")
 	setupClarissa(sys.argv[1])
 except IndexError:

@@ -1,12 +1,31 @@
 import random
 
-respPart1 =open("corpus/learn_corpus.txt", 'r').readlines()
-respPart2 =open("corpus/fun_corpus.txt", 'r').readlines()
-respPart3 =open("corpus/ending_corpus.txt", 'r').readlines()
+line1 = open("corpus/learn_corpus.txt", 'r').readlines()
+line2 = open("corpus/fun_corpus.txt", 'r').readlines()
+line3 = open("corpus/ending_corpus.txt", 'r').readlines()
 
-num =random.randrange(0, 6)
-num0 =random.randrange(0, 6)
-num1 =random.randrange(0, 3)
+respPart1 = []
+respPart2 = []
+respPart3 = []
+
+
+
+#Strip the strings of any new lines on all files.
+for line_learn in line1:
+    line_learn.replace("\n", "")
+    respPart1.append(line_learn.rstrip())
+
+for line_fun in line2:
+    line_fun.replace("\n", "")
+    respPart2.append(line_fun.rstrip())
+
+for line_ending in line3:
+    line_ending.replace("\n", "")
+    respPart3.append(line_ending.rstrip())
+
+num =random.randrange(0, 6) #Get the length and deduct 1 for safety
+num0 =random.randrange(0, 7)
+num1 =random.randrange(0, 4)
 
 def learn(db_support):
     print("Learning data")

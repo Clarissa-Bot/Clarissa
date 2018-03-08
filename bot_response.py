@@ -68,8 +68,8 @@ def getServerBasedResponse(to_bot):
 		text = t
 		tts.init(text, 'en-US', False)
 	query2 = {
-	'u' : sr.getClarissaSettingWithPath("user.ini", "user", "user"),
-	'p' : sr.getClarissaSettingWithPath("user.ini", "pass", "pass"),
+	'u' : sr.getClarissaSettingWithPath("user.rif", "user", "user"),
+	'p' : sr.getClarissaSettingWithPath("user.rif", "pass", "pass"),
 	'c': to_bot,
 			'r': t,
 			'a': "None"}
@@ -78,8 +78,8 @@ def getServerBasedResponse(to_bot):
 	if ( getChat(to_bot) is ""):
 		return None
 	query = {
-	'u' : sr.getClarissaSettingWithPath("user.ini", "user", "user"),
-	'p' : sr.getClarissaSettingWithPath("user.ini", "pass", "pass"),
+	'u' : sr.getClarissaSettingWithPath("user.rif", "user", "user"),
+	'p' : sr.getClarissaSettingWithPath("user.rif", "pass", "pass"),
 	'c': to_bot,
 			'r': getChat(to_bot),
 			'a': "None"}

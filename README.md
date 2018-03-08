@@ -17,10 +17,22 @@ Q: Is this a finished product? A: No. Much like Minecraft, this project is and w
 Q: What is the project's goal? A: The goal is to add machine learning to a python bot. This has never been done before. We plan on having it be able to determine the next president by 2020. That feature will be deactivated by default until voting time.
 
 # Current version
-We are on version 1.1.6
+We are on version 1.1.7
 
 # What's new?
-TTS was disabled permanently until we find a way to use other alternatives. We also removed the use of .ini files, so please re-run setup.py. We also added more commands to be used by developers in their own CApps (Clarissa Apps).
+Randomizer in bot_learn was fixed. We added cpk manager for installing, running, packaging, and making Clarissa applications. Also, now App.py will be written to new applications, so be sure to update your app by including it.
+
+To make a new app, run:
+cpk make APP_NAME
+
+To package the app, run:
+cpk build LOCATION_OF_APP CPK_NAME
+
+To install an app, run:
+cpk install LOCATION_OF_APP
+
+To run an app, run:
+cpk run APP_NAME
 
 # What will be in the next version?
-We will continue to add to the corpus. We will also add some more developer friendly commands and functions. Miht even create a user interface.
+We will continue to add to the corpus. We will also add some more developer friendly commands and functions.
