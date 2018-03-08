@@ -22,6 +22,7 @@ We are on version 1.1.9
 # What's new?
 Randomizer in bot_learn was fixed. We added cpk manager for installing, running, packaging, and making Clarissa applications. Also, now App.py will be written to new applications, so be sure to update your app by including it. We also had done some minor refinements and changes, including new binary files for Windows and Linux that will later be embedded into the PATH environment.
 
+# How do I make an app for this?
 To make a new app, run:
 cpk make APP_NAME
 
@@ -35,4 +36,4 @@ To run an app, run:
 cpk run APP_NAME
 
 # What will be in the next version?
-We will continue to add to the corpus. We will also add some more developer friendly commands and functions.
+We will continue to add to the corpus. We will also add some more developer friendly commands and functions. We will possibly include an app store.
