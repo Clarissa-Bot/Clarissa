@@ -1,6 +1,5 @@
 import os
 import sys as sys
-os.system("python bot/bot.py engage")
 import bot_response as bot
 import bot_learn as learner
 import logger as log
