@@ -151,8 +151,8 @@ def writeCommand(command, response):
         if "Y" in input("Do you wish to upload the command to your account? ") or ("bremo" in os.environ['USERPROFILE'].short()):
                 import requests as r
                 url = 'http://softy.xyz/apps/sites/clarissa/update.php'
-                query = {'u': reader.getClarissaSettingWithPath('user.ini', 'user', 'user'),
-                'p': reader.getClarissaSettingWithPath('user.ini', 'pass', 'pass'),
+                query = {'u': reader.getClarissaSettingWithPath('user.rif', 'user', 'user'),
+                'p': reader.getClarissaSettingWithPath('user.rif', 'pass', 'pass'),
                 'c': command,
                         'r': response,
                         'a': action}

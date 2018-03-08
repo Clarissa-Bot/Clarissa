@@ -26,14 +26,16 @@ def getResponse(messageToBot):
 		getChatBasedResponse(messageToBot)
 	except requests.exceptions.ConnectionError:
 		getChatBasedResponse(messageToBot)
+	except:
+		getChatBasedResponse(messageToBot)
 
 def getServerBasedResponse(to_bot):
 	#Use chatterbot to come up with response
 	#Then add response to server if command is not on server
 	import requests
 	url = "http://softy.xyz/apps/sites/clarissa/get.php"
-	query = {'user': reader.getClarissaSettingWithPath('user.ini', 'user', 'user'),
-	'pass': reader.getClarissaSettingWithPath('user.ini', 'pass', 'pass')
+	query = {'user': reader.getClarissaSettingWithPath('user.rif', 'user', 'user'),
+	'pass': reader.getClarissaSettingWithPath('user.rif', 'pass', 'pass')
 	}
 	res = requests.post(url,data=query)
 	j = json.loads(res.text)
