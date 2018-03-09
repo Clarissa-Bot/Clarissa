@@ -1,5 +1,6 @@
 gtts
 playsound
+SpeechRecognition
 chatterbot
 pywin32
 termcolor

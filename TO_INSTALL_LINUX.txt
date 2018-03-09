@@ -1,4 +1,5 @@
 gtts
 playsound
+SpeechRecognition
 chatterbot
 termcolor
