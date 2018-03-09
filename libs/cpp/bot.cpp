@@ -25,6 +25,6 @@ int main(int argc, char** argv)
 		system(params.c_str());
 	}catch(std::logic_error)
 	{
-		system("python bot.py");
+		system("python3 bot.py");
 	}
 }
