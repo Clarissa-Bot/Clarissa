@@ -194,7 +194,7 @@ def getIf(message, command, response):
 
 def updateSystem():
     #Update Clarissa System
-    os.system("git clone https://github.com/Clarissa-Bot/Clarissa.git")
+    os.system("git pull origin master")
 swearNum = 0
 time = datetime.datetime.now()
 hour_min = (time.hour+time.minute)
