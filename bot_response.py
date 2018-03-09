@@ -32,6 +32,7 @@ def getResponse(messageToBot):
 def getServerBasedResponse(to_bot):
 	#Use chatterbot to come up with response
 	#Then add response to server if command is not on server
+	t = ""
 	import requests
 	url = "http://softy.xyz/apps/sites/clarissa/get.php"
 	query = {'user': reader.getClarissaSettingWithPath('user.rif', 'user', 'user'),
@@ -53,7 +54,7 @@ def getServerBasedResponse(to_bot):
 				tts.init(text, 'en-US', False)
 			print(cbot_name+": "+j[line]['reply'])
 			return None
-	
+	t = text
 	if(sr.getClarissaSetting("speech", "speak_out") == "true"):
 		text = getChat(to_bot)
 		tts.init(text, 'en-US', False)
@@ -65,17 +66,9 @@ def getServerBasedResponse(to_bot):
 	t = bl.learn_hobby(to_bot)
 	if( t == ""):
 		return None
-
 	if(sr.getClarissaSetting("speech", "speak_out") == "true"):
 		text = t
 		tts.init(text, 'en-US', False)
-	query2 = {
-	'u' : sr.getClarissaSettingWithPath("user.rif", "user", "user"),
-	'p' : sr.getClarissaSettingWithPath("user.rif", "pass", "pass"),
-	'c': to_bot,
-			'r': t,
-			'a': "None"}
-	res2 = r.post(url, data=query2)
 	#We must know if getChat response is empty for some reason
 	if ( getChat(to_bot) is ""):
 		return None
@@ -83,7 +76,14 @@ def getServerBasedResponse(to_bot):
 	'u' : sr.getClarissaSettingWithPath("user.rif", "user", "user"),
 	'p' : sr.getClarissaSettingWithPath("user.rif", "pass", "pass"),
 	'c': to_bot,
-			'r': getChat(to_bot),
+			'r': t,
+			'a': "None"}
+	t = getChat(to_bot)
+	query = {
+	'u' : sr.getClarissaSettingWithPath("user.rif", "user", "user"),
+	'p' : sr.getClarissaSettingWithPath("user.rif", "pass", "pass"),
+	'c': to_bot,
+			'r': t,
 			'a': "None"}
 	res = r.post(url, data=query)
 

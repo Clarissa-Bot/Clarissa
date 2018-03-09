@@ -17,10 +17,10 @@ Q: Is this a finished product? A: No. Much like Minecraft, this project is and w
 Q: What is the project's goal? A: The goal is to add machine learning to a python bot. This has never been done before. We plan on having it be able to determine the next president by 2020. That feature will be deactivated by default until voting time.
 
 # Current version
-We are on version 1.1.9
+We are on version 1.2.0
 
 # What's new?
-Randomizer in bot_learn was fixed. We added cpk manager for installing, running, packaging, and making Clarissa applications. Also, now App.py will be written to new applications, so be sure to update your app by including it. We also had done some minor refinements and changes, including new binary files for Windows and Linux that will later be embedded into the PATH environment.
+Forced updating is now available. Clarissa will update at 1 AM daily.
 
 # How do I make an app for this?
 To make a new app, run:

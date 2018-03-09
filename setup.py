@@ -144,6 +144,7 @@ def setupClarissa(install_path):
 	setup.close()
 	os.environ['CLARISSA_PATH'] = install_path
 	w.setClarissaSettingWithPath("setup.rif", "main", "install", install_path)
+	w.setClarissaSettingWithPath("setup.rif", "main", "cbot_dir", os.path.dirname(os.path.realpath(__file__)))
 	w.setClarissaSetting("main", "auto_update", "false")
 	w.setClarissaSetting("speech", "hey_clarissa_enabled", "false")
 	w.setClarissaSetting("speech", "speak_out", "false")

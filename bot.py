@@ -107,10 +107,6 @@ def toBot(messageToBot):
                             #Print out what has been said
                             logs = open('chat.log', 'r')
                             print(logs.read())
-                    elif(messageToBot == "--update-clarissa"):
-                            toBot("Hello!")
-                    elif(messageToBot == "list the commands"):
-                            toBot("Hello!")
                     elif("Call me " in messageToBot):
                             w.setClarissaSetting("main","user.name", messageToBot.replace("Call me ", ""))
                     elif("call me " in messageToBot):
@@ -196,33 +192,16 @@ def getIf(message, command, response):
 	else:
 		print("I do not understand "+message)
 
-def updateCorpus():
-    #Download corpus from server if asked to
-    download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/chameleons.pdf", "Chameleons", "corpus/chameleons.pdf", delete=True)
-    download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_characters_metadata.txt", "Movie Characters Meta Data", "corpus/movie_characters_metadata.txt", delete=True)
-    download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_conversations.txt", "Movie Conversations", "corpus/movie_conversations.txt")
-    download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_lines.txt", "Movie Lines", "corpus/movie_lines.txt", delete=True)
-    download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_titles_metadata.txt", "Movie Titles", "corpus/movie_titles_metadata.txt", delete=True)
-    download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/raw_script_urls.txt", "Raw Script", "corpus/raw_script_urls.txt", delete=True)
-    download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/README.txt", "README", "corpus/README.txt", delete=True)
-def download(url, title, path, delete=False):
-    #Given the name, you do know what this is, right?
-    if(os.path.exists(path) and delte is True):
-        os.remove(path)
-    print("Downloading: "+title)
-    response = urllib.request.urlopen(url)
-    data = response.read()
-    text = data
-    f = open(path, "wb")
-    f.write(text)
-    f.flush()
-    f.close()
+def updateSystem():
+    #Update Clarissa System
+    os.system("git clone https://github.com/Clarissa-Bot/Clarissa.git")
 swearNum = 0
 time = datetime.datetime.now()
 hour_min = (time.hour+time.minute)
 if(hour_min is 1) and (r.getClarissaSetting("main", "auto_update") is "true"):
     #Update at 1 AM ONLY if auto update is on
-    bt = Thread(target=updateCorpus)
+    print("Clarissa: Sorry, I am updating!")
+    bt = Thread(target=updateSystem)
     bt.start()
 print("Welcome to Clarissa. If you need any help, run python bot.py --help")
 #Check if auto update is enabled
@@ -245,9 +224,6 @@ try:
         elif ("--get-commands" in sys.argv):
                 commandsList = open("commands.list","r")
                 print(commandsList.read())
-        elif ("--update-clarissa" in sys.argv):
-                os.system("python update.py")
-                print("Clarissa: Updating won't work just yet.")
         elif ("--get-logs" in sys.argv):
                 logs = open('chat.log','r')
                 print(logs.read())
@@ -255,12 +231,10 @@ try:
                 w.setClarissaSetting("main","user.name", sys.argv[2])
         elif ( sys.argv[1] == "--get-setting"):
                 print(getClarissaSetting("main",sys.argv[2]))
-        elif ( sys.argv[1] == "--update-from-url" ):
-                os.system("python update.py --from-url "+sys.argv[2])
         elif ( "--enable-auto-update" in sys.argv):
                 w.setClarissaSettingWithPath("Settings/Clarissa.rif","update","Clarissa.AUTO_UPDATE", "true")
         elif ("--update-bot" in sys.argv):
-                os.system("python update.py")
+            updateSystem()
         elif (sys.argv[1] == "--set-setting"):
                 w.setClarissaSetting(sys.argv[2], sys.argv[3], sys.argv[4])
         elif ("--enable-speech-recognition" in sys.argv):
@@ -271,8 +245,6 @@ try:
                 w.setClarissaSetting("speech", "speak_out", "true")
         elif ("--disable-speak-out" in sys.argv):
                 w.setClarissaSetting("speech", "speak_out", "false")
-        elif("--retrain" in sys.argv):
-                print("This option existed in older versions. Now we use a dataset.")
         elif(sys.argv[1] == "--make-app"):
             app = Apps()
             app.make_app(sys.argv[2])
@@ -315,23 +287,20 @@ try:
                 print("\t--add-command : Adds command to Clarissa")
                 print("\t--clear-commands : Clears all added custom commands")
                 print("\t--get-commands : Prints a list of Clarissa commands")
-                print("\t--update-clarissa : Adds messages")
                 print("\t--get-logs : Gets all the chat logs")
                 print("\tset.name : Gives you a custom username")
                 print("\t--get-setting: Gets settings stored")
                 print("\t--set-setting: Sets clarissa setting (--set-setting [HEADER] [KEY] [VALUE]")
                 print("\t--enable-auto-update : Turns on auto update feature for commands")
-                print("\t--update-bot : Updates the list of existing commands (Will be used to update the bot later on)")
-                print("\t--update-from-url: Get a custom messages update from your own site")
+                print("\t--update-bot : Updates Clarissa")
                 print("\t--enable-speech-recognition: Allows you to control Clarissa with your voice")
                 print("\t--disable-speech-recognition: Disables speech recognition")
                 print("\t--speak-out: Allows Clarissa to talk (BETA, may be slow!)")
                 print("\t--disable-speak-out: Stays to classic input output")
-                print("\t--retrain: Retrains this bot")
                 print("\t--make-app: Builds sample app to CApps directory (--make-app [APP_NAME])")
-                print("\t--install-app: Installs application to Clarissa (--install-app [CPK_PATH])")
+                print("\t--install-app: Installs application to Clarissa (--install-app [CPK_PATH] [--from-external])")
                 print("\t--run-app: Runs app (python bot.py --run-app [APP_NAME])")
-                print("\t--build-app: Builds application to .cpk (--build-app APP_PATH CPK_NAME)")
+                print("\t--build-app: Builds application to .cpk (--build-app APP_PATH CPK_NAME [--from-external])")
                 print("\t--h / --help : Prints this list")
         else:
                 if(clarissa_voice_recognition_enabled is True):
