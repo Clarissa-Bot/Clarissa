@@ -3,14 +3,14 @@
 using namespace std;
 int main(int argc, char** argv)
 {
-	std::string params = "python ";
+	std::string params = "python3 ";
 	try
 	{
 		std::string main = argv[1];
-		std::string params = "python bot.py ";
+		std::string params = "python3 bot.py ";
 		if(main == "--setup")
 		{
-			params = "python setup.py ";
+			params = "python3 setup.py ";
 			for(int i = 2; i < argc; i++)
 			{
 				params = params + argv[i] + " ";
