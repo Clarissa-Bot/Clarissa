@@ -1,24 +1,31 @@
+#Get Clarissa's path
+def getClairssaDirectory():
+    cl_path = str(__file__)
+    cl_path = cl_path.replace("\\", "/")
+    cl_path = cl_path.replace("bot.py", "")
 import os
 import sys as sys
-import bot_response as bot
-import bot_learn as learner
-import logger as log
+sys.path.insert(0, getClairssaDirectory())
+from bot_response import bot_response as bot
+from bot_learn import bot_learn as learner
+from logger import logger as log
 import urllib
-import writer as w
-import reader as r
-import reader
+from rif import writer as w
+from rif import reader as r
+from rif import reader
 import urllib
 from importlib import reload
 from urllib.request import urlopen
 import speech_recognition as speech_recognizer
 import datetime
 import time as time_check
-import tts
+from tts import tts
 import shutil
 from libs.cpu import CPU
 from libs.apps import Apps
 from threading import Thread
 from zipify.zipify import PAR
+
 #Allow the user to communicate with the bot
 #Also allow the bot to learn about the person
 def getSpeech():

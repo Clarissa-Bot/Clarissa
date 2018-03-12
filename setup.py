@@ -4,7 +4,7 @@ import sys
 from tempfile import mkstemp
 from shutil import move
 from os import fdopen, remove
-import writer as w
+from rif import writer as w
 import requests as r
 import urllib.request, urllib.error, urllib.parse
 import json

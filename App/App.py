@@ -1,5 +1,5 @@
 import datetime
-import bot_response
+from botr_response import bot_response
 class App:
 	def __init__(self, path):
 		self.path = path

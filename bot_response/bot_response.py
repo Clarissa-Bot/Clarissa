@@ -1,14 +1,14 @@
-import logger as log
+from logger import logger as log
 import urllib.request, urllib.error, urllib.parse
 import json
 import os as os
 import sys as sys
 from urllib.request import urlopen
-import reader as sr
-import tts
-import bot_learn as bl
-import reader
-import writer
+from rif import reader as sr
+from tts import tts
+from bot_learn import bot_learn as bl
+from rif import reader
+from rif import writer
 
 def get_name():
 	return reader.getClarissaSetting("clarissa", "name")

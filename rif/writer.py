@@ -1,10 +1,10 @@
-import reader
+from rif import reader
 import os
 import sys
 from tempfile import mkstemp
 from shutil import move
 from os import fdopen, remove
-import reader as rdr
+from rif import reader as rdr
 from configparser import DuplicateSectionError
 from configparser import NoSectionError
 try:

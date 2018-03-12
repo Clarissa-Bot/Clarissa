@@ -2,8 +2,8 @@ import os, sys
 import zipfile
 from os import listdir
 from os.path import isfile, join
-import writer
-import reader
+from rif import writer
+from rif import reader
 import shutil
 
 class PAR:

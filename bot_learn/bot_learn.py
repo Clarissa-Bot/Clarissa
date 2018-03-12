@@ -23,7 +23,7 @@ for line_ending in line3:
     line_ending.replace("\n", "")
     respPart3.append(line_ending.rstrip())
 
-num =random.randrange(0, 6) #Get the length and deduct 1 for safety
+num =random.randrange(0, len(respPart1) -1) #Get the length and deduct 1 for safety
 num0 =random.randrange(0, 7)
 num1 =random.randrange(0, 4)
 

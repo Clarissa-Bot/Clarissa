@@ -1,4 +1,4 @@
-import writer as w
+from rif import writer as w
 import sys
 
 if(sys.argv[1] == "--translate-to"):
