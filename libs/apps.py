@@ -1,5 +1,5 @@
 import sys, os
-import bot_learn
+from bot_learn import bot_learn
 from zipify.zipify import PAR
 class Apps:
 	def __init__(self):
@@ -11,8 +11,18 @@ class Apps:
 
 	def run(self, app_name):
 		if(self.does_app_exist(app_name) == True):
-			os.system("python Apps/"+app_name+"/main.py")
+			os.system("java -jar libs/java/SoftyServices.jar Apps/"+app_name+"/app.web")
+	def run_python_app(self, app_name):
+		if(self.does_app_exist(app_name) == True):
+			cl_path = str(bot_learn.__file__)
+			cl_path = cl_path.replace("\\", "/")
+			cl_path = cl_path.replace("bot_learn/", "")
+			cl_path = cl_path.replace("bot_learn.py", "")
+			cl_path = cl_path.replace("\\", "/")
+			sys.path.insert(0, cl_path+"/Apps/"+app_name)
 
+			import main as custom_app
+			custom_app.main(sys.argv)
 	def does_app_exist(self,app_name):
 		if(os.path.exists("Apps")):
 			if(os.path.exists("Apps/"+app_name)):
@@ -32,25 +42,66 @@ class Apps:
 		os.environ[app_name] = (os.path.expanduser("~")+"/CApps/"+app_name)
 		cl_path = str(bot_learn.__file__)
 		cl_path = cl_path.replace("\\", "/")
+		cl_path = cl_path.replace("bot_learn/", "")
 		cl_path = cl_path.replace("bot_learn.py", "")
-		#Re-write App.py to the app's directory
-		f = open("App.py", 'r')
-		code = open(os.path.expanduser("~")+"/CApps/"+app_name+"/App.py", "w")
-		for line in f.readlines():
-			code.write(line)
-		code.flush()
-		code.close()
+		cl_path = cl_path.replace("\\", "/")
 		#Create a .rif file with information about application in it
 		f = open(os.path.expanduser("~")+"/CApps/"+app_name+"/info.rif", "w")
 		f.write("[name] => "+app_name)
-		#Create the appinfo module, a requirement to import Clarissa
-		#Then write the cl_path to it
-		f = open(os.path.expanduser("~")+"/CApps/"+app_name+"/appinfo.py", "w")
-		f.write("import sys\nsys.path.insert(0, \""+cl_path+"\")")
 		#Create the application, then import the requirements
-		f = open(os.path.expanduser("~")+"/CApps/"+app_name+"/main.py", "w")
-		f.write("import sys\nimport os\nimport appinfo\nfrom App import App\napp = App(os.path.dirname(os.path.realpath(__file__)))\n")
-		f.write("def main(args=sys.argv):\n\tprint(app.get_name())\nmain()")
+		app_path = os.path.expanduser("~")+"/CApps/"+app_name
+		app_path = app_path.replace("\\", "/")
+		f = open(app_path+"/index.html", "w")
+		f.write("<html>\n\t<header>\n\t\t<title>"+app_name+"</title>\n\t</header>\n\t<body>\n\t</body>\n<html>")
+		f.flush()
+		f.close()
+		#Write javascript file
+		f = open(app_path+"/app.js", "w")
+		f.write("function getName()\n{\n\treturn \""+app_name+"\";\n}")
+		f.flush()
+		f.close()
+		#Write app file
+		f = open(app_path+"/app.web", "w")
+		f.write("[url] => file:///"+app_path+"/index.html")
+		f.flush()
+		f.close()
+		#Notify app was created
+		print("Sample app stored in "+os.path.expanduser("~")+"/CApps/"+app_name)
+
+	def make_python_app(self, app_name):
+		if(os.path.exists(os.path.expanduser("~")+"/CApps") is False):
+			os.mkdir(os.path.expanduser("~")+"/CApps")
+		if(os.path.exists(os.path.expanduser("~")+"/CApps/"+app_name)) is True:
+			print("App already exists!")
+			exit()
+		os.mkdir(os.path.expanduser("~")+"/CApps/"+app_name)
+		os.environ[app_name] = (os.path.expanduser("~")+"/CApps/"+app_name)
+		cl_path = str(bot_learn.__file__)
+		cl_path = cl_path.replace("\\", "/")
+		cl_path = cl_path.replace("bot_learn/", "")
+		cl_path = cl_path.replace("bot_learn.py", "")
+		cl_path = cl_path.replace("\\", "/")
+		#Create a .rif file with information about application in it
+		f = open(os.path.expanduser("~")+"/CApps/"+app_name+"/info.rif", "w")
+		f.write("[name] => "+app_name)
+		#Create the application, then import the requirements
+		app_path = os.path.expanduser("~")+"/CApps/"+app_name
+		app_path = app_path.replace("\\", "/")
+		f = open(app_path+"/main.py", "w")
+		f.write("def main(args):\n\tprint(args)\n")
+		f.flush()
+		f.close()
+		#Write app.py file
+		f = open(app_path+"/app.py", "w")
+		f.write("def getName():\n\n\treturn \""+app_name+"\"\n")
+		f.flush()
+		f.close()
+
+		#Get code from App.py
+		codes = open("App/App.py", "r").readlines()
+		f = open(app_path+"/App.py", "w")
+		for code in codes:
+			f.write(code)
 		f.flush()
 		f.close()
 		#Notify app was created
