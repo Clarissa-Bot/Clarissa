@@ -24,8 +24,8 @@ for line_ending in line3:
     respPart3.append(line_ending.rstrip())
 
 num =random.randrange(0, len(respPart1) -1) #Get the length and deduct 1 for safety
-num0 =random.randrange(0, 7)
-num1 =random.randrange(0, 4)
+num0 =random.randrange(0, len(respPart2) -1)
+num1 =random.randrange(0, len(respPart3) -1)
 
 def learn(db_support):
     print("Learning data")
@@ -43,3 +43,5 @@ def learn_hobby(inputText):
     elif(inputText.startswith("i like to ")):
         print('Clarissa: '+(respPart1[num]+(respPart2[num0]+(respPart3[num1]))))
         return (respPart1[num]+(respPart2[num0]+(respPart3[num1])))
+def test():
+    learn_hobby("I like to test code.")

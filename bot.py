@@ -254,14 +254,20 @@ try:
                 w.setClarissaSetting("speech", "speak_out", "false")
         elif(sys.argv[1] == "--make-app"):
             app = Apps()
-            app.make_app(sys.argv[2])
+            if("--python" in sys.argv):
+                app.make_python_app(sys.argv[2])
+            else:
+                app.make_app(sys.argv[2])
         elif(sys.argv[1] == "--text"):
             bot.getResponse(sys.argv[2])
         elif(sys.argv[1] == "--run-app"):
             messageToBot = sys.argv[2]
             apps = Apps()
             if(apps.does_app_exist(messageToBot.replace("Run ","")) == True):
-                apps.run(messageToBot.replace("Run ",""))
+                if("--python" in sys.argv):
+                    apps.run_python_app(messageToBot.replace("Run", ""))
+                else:
+                    apps.run(messageToBot.replace("Run ",""))
             else:
                 print(messageToBot.replace("Run ","")+" was not found")
                 if(clarissa_voice_recognition_enabled == True):
@@ -269,7 +275,7 @@ try:
                 else:
                     toBot(messageToBot=input(r.getClarissaSetting("main","user.name")+": "))
         elif(sys.argv[1] == "--install-app"):
-            fp = os.path.expanduser("~")+"/CApps/"+sys.argv[2]+"/build/master.cpk"
+            fp = os.path.expanduser("~")+"/CApps/"+sys.argv[2]+"/build/"+sys.argv[2]+".cpk"
             p = PAR(fp)
             p.depackage()
             print("Installed "+sys.argv[2])
@@ -304,10 +310,10 @@ try:
                 print("\t--disable-speech-recognition: Disables speech recognition")
                 print("\t--speak-out: Allows Clarissa to talk (BETA, may be slow!)")
                 print("\t--disable-speak-out: Stays to classic input output")
-                print("\t--make-app: Builds sample app to CApps directory (--make-app [APP_NAME])")
-                print("\t--install-app: Installs application to Clarissa (--install-app [CPK_PATH] [--from-external])")
-                print("\t--run-app: Runs app (python bot.py --run-app [APP_NAME])")
-                print("\t--build-app: Builds application to .cpk (--build-app APP_PATH CPK_NAME [--from-external])")
+                print("\t--make-app: Builds sample app to CApps directory (--make-app [APP_NAME] [Optional: --python])")
+                print("\t--install-app: Installs application to Clarissa (--install-app [APP_NAME] [optional: --from-external])")
+                print("\t--run-app: Runs app (python bot.py --run-app [APP_NAME] [optional: --python])")
+                print("\t--build-app: Builds application to .cpk (--build-app APP_PATH CPK_NAME [optional: --from-external])")
                 print("\t--h / --help : Prints this list")
         else:
                 if(clarissa_voice_recognition_enabled is True):
