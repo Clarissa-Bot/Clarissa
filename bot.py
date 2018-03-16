@@ -205,9 +205,9 @@ def updateSystem():
 swearNum = 0
 time = datetime.datetime.now()
 hour_min = (time.hour+time.minute)
-if(hour_min is 1) and (r.getClarissaSetting("main", "auto_update") is "true"):
-    #Update at 1 AM ONLY if auto update is on
-    print("Clarissa: Sorry, I am updating!")
+if(hour_min is 3) and (r.getClarissaSetting("main", "auto_update") is "true"):
+    #Update at 3 AM ONLY if auto update is on
+    print("Clarissa: While I update, checkout other Softy apps at https://www.softy.xyz/apps.php")
     bt = Thread(target=updateSystem)
     bt.start()
 print("Welcome to Clarissa. If you need any help, run python bot.py --help")
