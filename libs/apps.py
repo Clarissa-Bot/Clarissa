@@ -11,6 +11,15 @@ class Apps:
 
 	def run(self, app_name):
 		if(self.does_app_exist(app_name) == True):
+			cl_path = str(bot_learn.__file__)
+			cl_path = cl_path.replace("\\", "/")
+			cl_path = cl_path.replace("bot_learn/", "")
+			cl_path = cl_path.replace("bot_learn.py", "")
+			cl_path = cl_path.replace("\\", "/")
+			file = open("Apps/"+app_name+"/app.web", "w")
+			file.write("[url] => file:///"+cl_path+"/Apps/"+app_name+"/index.html")
+			file.flush()
+			file.close()
 			os.system("java -jar libs/java/SoftyServices.jar Apps/"+app_name+"/app.web")
 	def run_python_app(self, app_name):
 		if(self.does_app_exist(app_name) == True):
