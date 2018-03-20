@@ -17,6 +17,8 @@ cbot_name = get_name()
 
 def set_name(bot_name):
 	writer.setClarissaSetting("clarissa", "name", bot_name)
+	#import bot as bot
+	os.system("py -3 "+str("bot.py"))
 
 def getResponse(messageToBot):
 	import requests

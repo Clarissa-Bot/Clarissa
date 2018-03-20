@@ -17,17 +17,17 @@ Q: Is this a finished product? A: No. Much like Minecraft, this project is and w
 Q: What is the project's goal? A: The goal is to add machine learning to a python bot. This has never been done before. We plan on having it be able to determine the next president by 2020. That feature will be deactivated by default until voting time.
 
 # Current version
-We are on version 1.2.2
+We are on version 1.2.3
 
 # What's new?
-Now you can make Clarissa Web Apps with SoftyServices. You will need to have java installed. All you'd have to do is run cpk make [APP_NAME]. To make a Clarissa Python app, run cpk make [APP_NAME] --python. We also patched the bot_learn randomizer bug.
+You can now update Clarissa apps from cpk. You can build cpk in libs/cpp/cpk-man.cpp.
 
 # How do I make an app for this?
 To make a new app, run:
 cpk make APP_NAME
 
 To package the app, run:
-cpk build LOCATION_OF_APP CPK_NAME
+cpk compile LOCATION_OF_APP CPK_NAME
 
 To install an app, run:
 cpk install LOCATION_OF_APP

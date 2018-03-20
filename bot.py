@@ -210,7 +210,7 @@ if(hour_min is 3) and (r.getClarissaSetting("main", "auto_update") is "true"):
     print("Clarissa: While I update, checkout other Softy apps at https://www.softy.xyz/apps.php")
     bt = Thread(target=updateSystem)
     bt.start()
-print("Welcome to Clarissa. If you need any help, run python bot.py --help")
+#print("Welcome to Clarissa. If you need any help, run python bot.py --help")
 #Check if auto update is enabled
 if(r.getClarissaSetting("main","auto_update") is "true"):
         if(" 12:" or " 6:" in time):

@@ -97,7 +97,7 @@ class Apps:
 		app_path = os.path.expanduser("~")+"/CApps/"+app_name
 		app_path = app_path.replace("\\", "/")
 		f = open(app_path+"/main.py", "w")
-		f.write("def main(args):\n\tprint(args)\n")
+		f.write("from app import App\nimport os\ndir_path = os.path.dirname(os.path.realpath(__file__))\napp = App(dir_path)\ndef main(args):\n\tprint(args)\napp.on_exit()")
 		f.flush()
 		f.close()
 		#Write app.py file

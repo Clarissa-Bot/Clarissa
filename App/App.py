@@ -51,3 +51,9 @@ class App:
 	def set_name(self, name):
 		#Set the name for your app if you're building a chatbot
 		bot_response.set_name(name)
+	def on_exit(self):
+		#Default on exit
+		try:
+			pass
+		except (KeyboardInterrupt, SystemExit):
+			self.set_name("Clarissa")
