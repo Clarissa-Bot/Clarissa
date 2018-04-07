@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<asmv1:assembly xsi:schemaLocation="urn:schemas-microsoft-com:asm.v1 assembly.adaptive.xsd" manifestVersion="1.0" xmlns:asmv1="urn:schemas-microsoft-com:asm.v1" xmlns="urn:schemas-microsoft-com:asm.v2" xmlns:asmv2="urn:schemas-microsoft-com:asm.v2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:co.v1="urn:schemas-microsoft-com:clickonce.v1" xmlns:asmv3="urn:schemas-microsoft-com:asm.v3" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:co.v2="urn:schemas-microsoft-com:clickonce.v2">
+  <asmv1:assemblyIdentity name="Clarissa.exe" version="1.0.0.3" publicKeyToken="3411fa8a9c81fca7" language="neutral" processorArchitecture="msil" type="win32" />
+  <application />
+  <entryPoint>
+    <assemblyIdentity name="Clarissa" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+    <commandLine file="Clarissa.exe" parameters="" />
+  </entryPoint>
+  <trustInfo>
+    <security>
+      <applicationRequestMinimum>
+        <PermissionSet Unrestricted="true" ID="Custom" SameSite="site" />
+        <defaultAssemblyRequest permissionSetReference="Custom" />
+      </applicationRequestMinimum>
+      <requestedPrivileges xmlns="urn:schemas-microsoft-com:asm.v3">
+        <!--
+          UAC Manifest Options
+          If you want to change the Windows User Account Control level replace the 
+          requestedExecutionLevel node with one of the following.
+
+        <requestedExecutionLevel  level="asInvoker" uiAccess="false" />
+        <requestedExecutionLevel  level="requireAdministrator" uiAccess="false" />
+        <requestedExecutionLevel  level="highestAvailable" uiAccess="false" />
+
+         If you want to utilize File and Registry Virtualization for backward 
+         compatibility then delete the requestedExecutionLevel node.
+    -->
+        <requestedExecutionLevel level="asInvoker" uiAccess="false" />
+      </requestedPrivileges>
+    </security>
+  </trustInfo>
+  <dependency>
+    <dependentOS>
+      <osVersionInfo>
+        <os majorVersion="5" minorVersion="1" buildNumber="2600" servicePackMajor="0" />
+      </osVersionInfo>
+    </dependentOS>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="preRequisite" allowDelayedBinding="true">
+      <assemblyIdentity name="Microsoft.Windows.CommonLanguageRuntime" version="4.0.30319.0" />
+    </dependentAssembly>
+  </dependency>
+  <dependency>
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Clarissa.exe" size="15328">
+      <assemblyIdentity name="Clarissa" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
+      <hash>
+        <dsig:Transforms>
+          <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+        </dsig:Transforms>
+        <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+        <dsig:DigestValue>hPXRvoRV+tT5KYZk8QFSSnrSHyWOo8uQrP8o/nC10Fs=</dsig:DigestValue>
+      </hash>
+    </dependentAssembly>
+  </dependency>
+  <file name="Clarissa.exe.config" size="189">
+    <hash>
+      <dsig:Transforms>
+        <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
+      </dsig:Transforms>
+      <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
+      <dsig:DigestValue>HsD8qMmDXGqQ6WmS7lZCKbLphTE0xR3YejXuHVoOBrM=</dsig:DigestValue>
+    </hash>
+  </file>
+<publisherIdentity name="CN=DESKTOP-K5HNT9S\bremo" issuerKeyHash="0ed034da2d8c2f0c1ec1ab9c316075770247ca03" /><Signature Id="StrongNameSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>hDX4iMymm/XHjLw/Y2Nq0YrjsK5SKuvc2W969xhGOcM=</DigestValue></Reference></SignedInfo><SignatureValue>J/u/Fm3CRVnLToKV3xnnyTqoFAftYbDk2r0bc4q5l8oVU7JjEpbrxaMnBQ2zVYlCg1KZgFns34NuQvFh+D4TJUpXfzedIM1chzWXTnP6I8+6nSMzlMKROeLFEYy/cwwZSSiD5tzBk5Qx5D4i4LISxwDBM2KWWd6QsrLdIn2lCus=</SignatureValue><KeyInfo Id="StrongNameKeyInfo"><KeyValue><RSAKeyValue><Modulus>ws9ARBlyM/A710M20jiWhAAkgH6/rymgO70WC8WmKM3FhVKoTyM7sjjYHSjZRDCphgQKldLinBMxc/m4HaFHdjJV//fvvdAwUARdrQDMm9JENeySX+tnWmBYh5SoolwualJQ1wpySrD+MAp9pfjHQ1OQDfrODZblBk9BGfFqP8k=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><msrel:RelData xmlns:msrel="http://schemas.microsoft.com/windows/rel/2005/reldata"><r:license xmlns:r="urn:mpeg:mpeg21:2003:01-REL-R-NS" xmlns:as="http://schemas.microsoft.com/windows/pki/2005/Authenticode"><r:grant><as:ManifestInformation Hash="c3394618f77a6fd9dceb2a52aeb0e38ad16a63633fbc8cc7f59ba6cc88f83584" Description="" Url=""><as:assemblyIdentity name="Clarissa.exe" version="1.0.0.3" publicKeyToken="3411fa8a9c81fca7" language="neutral" processorArchitecture="msil" type="win32" /></as:ManifestInformation><as:SignedBy /><as:AuthenticodePublisher><as:X509SubjectName>CN=DESKTOP-K5HNT9S\bremo</as:X509SubjectName></as:AuthenticodePublisher></r:grant><r:issuer><Signature Id="AuthenticodeSignature" xmlns="http://www.w3.org/2000/09/xmldsig#"><SignedInfo><CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /><SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha256" /><Reference URI=""><Transforms><Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" /><Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#" /></Transforms><DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" /><DigestValue>zn1BFAHB4SLUlqWDqaH2Mr1GdB1GlQaeCo8xOTdBxDc=</DigestValue></Reference></SignedInfo><SignatureValue>Eq/2ZtsWgSAfl1h2mgOFVEroZmI4wkt3a6Ev3F8ZsMTWO1LgtS5rfwoovWUgvPdTiUZhDaZyerLxAEakUIoq3xlYJBOPpXYcttD+MpGxTvnoKlF/QVxbHgC7Z5lxYXDlEsJTqG2+KQO1oNfRI19Au2xZm6rMCfWQpWBTj1DnHXI=</SignatureValue><KeyInfo><KeyValue><RSAKeyValue><Modulus>ws9ARBlyM/A710M20jiWhAAkgH6/rymgO70WC8WmKM3FhVKoTyM7sjjYHSjZRDCphgQKldLinBMxc/m4HaFHdjJV//fvvdAwUARdrQDMm9JENeySX+tnWmBYh5SoolwualJQ1wpySrD+MAp9pfjHQ1OQDfrODZblBk9BGfFqP8k=</Modulus><Exponent>AQAB</Exponent></RSAKeyValue></KeyValue><X509Data><X509Certificate>MIIB7TCCAVagAwIBAgIQGQKH6T8kC7VNghyQdaKS4jANBgkqhkiG9w0BAQsFADA1MTMwMQYDVQQDHioARABFAFMASwBUAE8AUAAtAEsANQBIAE4AVAA5AFMAXABiAHIAZQBtAG8wHhcNMTgwMzMxMTQ1MjIzWhcNMTkwMzMxMjA1MjIzWjA1MTMwMQYDVQQDHioARABFAFMASwBUAE8AUAAtAEsANQBIAE4AVAA5AFMAXABiAHIAZQBtAG8wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMLPQEQZcjPwO9dDNtI4loQAJIB+v68poDu9FgvFpijNxYVSqE8jO7I42B0o2UQwqYYECpXS4pwTMXP5uB2hR3YyVf/3773QMFAEXa0AzJvSRDXskl/rZ1pgWIeUqKJcLmpSUNcKckqw/jAKfaX4x0NTkA36zg2W5QZPQRnxaj/JAgMBAAEwDQYJKoZIhvcNAQELBQADgYEAGucGk80Scl6Ist7Tcy/4JcGiL32gztLZGHOPKQDn0oJaEWkJ1UgR8fZyvvLUk8XCkfDZ8YE7rtbVj+InDFuXDlUta55mobX4ZSMtbyjqI4sAoKQvS9rT4YiYT1yzk5fY2AXunEzUVVNu8Bio5fCXTs7vp7HxabCqciP8WWwhJT0=</X509Certificate></X509Data></KeyInfo></Signature></r:issuer></r:license></msrel:RelData></KeyInfo></Signature></asmv1:assembly>

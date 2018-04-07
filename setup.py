@@ -1,5 +1,7 @@
 from chatterbot import ChatBot
-import os
+import os as os
+dir_path = os.path.dirname(os.path.realpath(__file__))
+dir_path = dir_path.replace("setup", "")
 import sys
 from tempfile import mkstemp
 from shutil import move
@@ -27,8 +29,8 @@ def getStatus(url):
 	text = ""
 	for line in range(len(j)):
 		if(j[line]["status"] == "OKAY"):
-			w.setClarissaSettingWithPath("user.rif", "user", "user", j[line]["username"])
-			w.setClarissaSettingWithPath("user.rif", "pass","pass", j[line]["password"])
+			w.setClarissaSettingWithPath(dir_path+"/user.rif", "user", "user", j[line]["username"])
+			w.setClarissaSettingWithPath(dir_path+"/user.rif", "pass","pass", j[line]["password"])
 		else:
 			print("You entered either a wrong username or password")
 def useWebServices(ask_in=False):
@@ -91,8 +93,8 @@ def writeCommand(user, password, command, response):
                 print(res.text)
 
 def setupOfflineClarissa(install_path):
-	w.setClarissaSettingWithPath("user.rif", "user", "user", "Offline")
-	w.setClarissaSettingWithPath("user.rif", "pass", "pass", "Offline")
+	w.setClarissaSettingWithPath(dir_path+"/user.rif", "user", "user", "Offline")
+	w.setClarissaSettingWithPath(dir_path+"/user.rif", "pass", "pass", "Offline")
 	os.remove("setup.rif")
 	if(os.path.isfile("setup.rif")):
 		out = open('setup.rif', 'a')
@@ -114,7 +116,7 @@ def setupOfflineClarissa(install_path):
 	setup.flush()
 	setup.close()
 	os.environ['CLARISSA_PATH'] = install_path
-	w.setClarissaSettingWithPath("setup.rif", "main", "install", install_path)
+	w.setClarissaSettingWithPath(dir_path+"/setup.rif", "main", "install", install_path)
 	w.setClarissaSetting("main", "auto_update", "false")
 	w.setClarissaSetting("speech", "hey_clarissa_enabled", "false")
 	w.setClarissaSetting("speech", "speak_out", "false")
@@ -143,25 +145,26 @@ def setupClarissa(install_path):
 	setup.flush()
 	setup.close()
 	os.environ['CLARISSA_PATH'] = install_path
-	w.setClarissaSettingWithPath("setup.rif", "main", "install", install_path)
-	w.setClarissaSettingWithPath("setup.rif", "main", "cbot_dir", os.path.dirname(os.path.realpath(__file__)))
+	w.setClarissaSettingWithPath(dir_path+"/setup.rif", "main", "install", install_path)
+	w.setClarissaSettingWithPath(dir_path+"/setup.rif", "main", "cbot_dir", os.path.dirname(os.path.realpath(__file__)))
 	w.setClarissaSetting("main", "auto_update", "false")
 	w.setClarissaSetting("speech", "hey_clarissa_enabled", "false")
 	w.setClarissaSetting("speech", "speak_out", "false")
 	w.setClarissaSetting("main", "user.name", input("Your username: "))
-	if(os.path.exists("corpus") is False):
+	w.setClarissaSetting("clarissa", "name", "Clarissa")
+	if(os.path.exists(dir_path+"/corpus") is False):
 		os.mkdir("corpus")
-		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/chameleons.pdf", "Chameleons", "corpus/chameleons.pdf")
-		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_characters_metadata.txt", "Movie Characters Meta Data", "corpus/movie_characters_metadata.txt")
-		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_conversations.txt", "Movie Conversations", "corpus/movie_conversations.txt")
-		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_lines.txt", "Movie Lines", "corpus/movie_lines.txt")
-		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_titles_metadata.txt", "Movie Titles", "corpus/movie_titles_metadata.txt")
-		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/raw_script_urls.txt", "Raw Script", "corpus/raw_script_urls.txt")
-		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/README.txt", "README", "corpus/README.txt")
+		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/chameleons.pdf", "Chameleons", dir_path+"/corpus/chameleons.pdf")
+		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_characters_metadata.txt", "Movie Characters Meta Data", dir_path+"/corpus/movie_characters_metadata.txt")
+		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_conversations.txt", "Movie Conversations", dir_path+"/corpus/movie_conversations.txt")
+		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_lines.txt", "Movie Lines", dir_path+"/corpus/movie_lines.txt")
+		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_titles_metadata.txt", "Movie Titles", dir_path+"/corpus/movie_titles_metadata.txt")
+		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/raw_script_urls.txt", "Raw Script", dir_path+"/corpus/raw_script_urls.txt")
+		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/README.txt", "README", dir_path+"/corpus/README.txt")
 	if("win32" in sys.platform):
-		os.system("python -m pip install -r TO_INSTALL_WINDOWS.txt")
+		os.system("python -m pip install -r "+dir_path+"/TO_INSTALL_WINDOWS.txt")
 	else:
-		os.system("python -m pip install -r TO_INSTALL_LINUX.txt")
+		os.system("python -m pip install -r "++dir_path+"/TO_INSTALL_LINUX.txt")
 def internet_on():
     try:
         urllib.request.urlopen('http://216.58.192.142', timeout=1)
@@ -172,16 +175,19 @@ def internet_on():
     	return False
 try:
 	if(sys.argv[1] == "--reset"):
+		shutil.rmtree("libs/__pycache__")
+		shutil.rmtree("bot_learn/__pycache__")
+		shutil.rmtree("bot_response/__pycache__")
+		shutil.rmtree("rif/__pycache__")
+		shutil.rmtree("tts/__pycache__")
 		os.remove("commands.list")
 		os.remove("setup.rif")
 		os.remove("user.rif")
 		shutil.rmtree("Settings")
 		shutil.rmtree("Apps")
 		shutil.rmtree("__pycache__")
-		shutil.rmtree("libs/__pycache__")
-		shutil.rmtree("zipify/__pycache__")
 		exit()
-	open("setup.rif", "w")
+	open(dir_path+"/setup.rif", "w")
 	w.setClarissaSetting("clarissa", "name", "Clarissa")
 	if(internet_on() is False):
 		setupOfflineClarissa(sys.argv[1])

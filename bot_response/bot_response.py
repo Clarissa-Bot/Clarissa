@@ -2,6 +2,8 @@ from logger import logger as log
 import urllib.request, urllib.error, urllib.parse
 import json
 import os as os
+dir_path = os.path.dirname(os.path.realpath(__file__))
+dir_path = dir_path.replace("bot_response", "")
 import sys as sys
 from urllib.request import urlopen
 from rif import reader as sr
@@ -75,23 +77,23 @@ def getServerBasedResponse(to_bot):
 	if ( getChat(to_bot) is ""):
 		return None
 	query = {
-	'u' : sr.getClarissaSettingWithPath("user.rif", "user", "user"),
-	'p' : sr.getClarissaSettingWithPath("user.rif", "pass", "pass"),
+	'u' : sr.getClarissaSettingWithPath(dir_path+"/user.rif", "user", "user"),
+	'p' : sr.getClarissaSettingWithPath(dir_path+"/user.rif", "pass", "pass"),
 	'c': to_bot,
 			'r': t,
 			'a': "None"}
 	t = getChat(to_bot)
 	query = {
-	'u' : sr.getClarissaSettingWithPath("user.rif", "user", "user"),
-	'p' : sr.getClarissaSettingWithPath("user.rif", "pass", "pass"),
+	'u' : sr.getClarissaSettingWithPath(dir_path+"/user.rif", "user", "user"),
+	'p' : sr.getClarissaSettingWithPath(dir_path+"/user.rif", "pass", "pass"),
 	'c': to_bot,
 			'r': t,
 			'a': "None"}
 	res = r.post(url, data=query)
 
 
-movie_lines = "corpus/movie_lines.txt"
-movie_convos = "corpus/movie_conversations.txt"
+movie_lines = dir_path+"/corpus/movie_lines.txt"
+movie_convos = dir_path+"/corpus/movie_conversations.txt"
 
 def getConvos():
 	lines = open(movie_convos,encoding = "ISO-8859-1").read().split("\n")

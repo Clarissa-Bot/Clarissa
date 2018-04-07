@@ -1,4 +1,6 @@
 import os, sys
+dir_path = os.path.dirname(os.path.realpath(__file__))
+dir_path = dir_path.replace("zipify", "")
 import zipfile
 from os import listdir
 from os.path import isfile, join
@@ -23,13 +25,16 @@ class PAR:
 		print("Done!")
 
 	def depackage(self):
-		if(os.path.exists("Apps") is False):
-			os.mkdir("Apps")
+		if(os.path.exists(dir_path+"/Apps") is False):
+			os.mkdir(dir_path+"/Apps")
+			os.mkdir(dir_path+"/Apps/UserApps")
+		if(os.path.exists(dir_path+"/Apps/UserApps") is False):
+			os.mkdir(dir_path+"/Apps/UserApps")
 		with zipfile.ZipFile(self.PATH, 'r') as name_zip:
 			with name_zip.open("info.rif") as name_info:
 				print("Installing "+self.get_cpk_name())
 				app_name = self.get_cpk_name()
-				name_zip.extractall("Apps/"+str(app_name))
+				name_zip.extractall(dir_path+"/Apps/UserApps/"+str(app_name))
 
 
 
@@ -39,6 +44,6 @@ class PAR:
 		with zipfile.ZipFile(self.PATH, 'r') as name_zip:
 			with name_zip.open("info.rif") as name_info:
 				name_zip.extract("info.rif")
-				st = str(reader.getClarissaSettingWithPath("info.rif", section, key))
+				st = str(reader.getClarissaSettingWithPath(dir_path+"/info.rif", section, key))
 				os.remove("info.rif")
 				return st

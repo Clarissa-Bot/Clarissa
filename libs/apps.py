@@ -1,6 +1,7 @@
 import sys, os
 from bot_learn import bot_learn
 from zipify.zipify import PAR
+from rif import reader
 class Apps:
 	def __init__(self):
 		pass
@@ -16,11 +17,15 @@ class Apps:
 			cl_path = cl_path.replace("bot_learn/", "")
 			cl_path = cl_path.replace("bot_learn.py", "")
 			cl_path = cl_path.replace("\\", "/")
-			file = open("Apps/"+app_name+"/app.web", "w")
-			file.write("[url] => file:///"+cl_path+"/Apps/"+app_name+"/index.html")
-			file.flush()
-			file.close()
-			os.system("java -jar libs/java/SoftyServices.jar Apps/"+app_name+"/app.web")
+			app_type = reader.getClarissaSettingWithPath(cl_path+"/Apps/UserApps/"+app_name+"/info.rif", "app", "app_type")
+			if(app_type == "python"):
+				self.run_python_app(app_name)
+			else:
+				file = open(cl_path+"/Apps/UserApps/"+app_name+"/app.web", "w")
+				file.write("[url] => file:///"+cl_path+"/Apps/UserApps/"+app_name+"/index.html")
+				file.flush()
+				file.close()
+				os.system("java -jar libs/java/SoftyServices.jar Apps/UserApps/"+app_name+"/app.web")
 	def run_python_app(self, app_name):
 		if(self.does_app_exist(app_name) == True):
 			cl_path = str(bot_learn.__file__)
@@ -28,13 +33,13 @@ class Apps:
 			cl_path = cl_path.replace("bot_learn/", "")
 			cl_path = cl_path.replace("bot_learn.py", "")
 			cl_path = cl_path.replace("\\", "/")
-			sys.path.insert(0, cl_path+"/Apps/"+app_name)
+			sys.path.insert(0, cl_path+"/Apps/UserApps/"+app_name)
 
 			import main as custom_app
 			custom_app.main(sys.argv)
 	def does_app_exist(self,app_name):
 		if(os.path.exists("Apps")):
-			if(os.path.exists("Apps/"+app_name)):
+			if(os.path.exists("Apps/UserApps/"+app_name)):
 				return True
 			else:
 				return False
@@ -57,6 +62,7 @@ class Apps:
 		#Create a .rif file with information about application in it
 		f = open(os.path.expanduser("~")+"/CApps/"+app_name+"/info.rif", "w")
 		f.write("[name] => "+app_name)
+		f.write("\n[app_type] => web")
 		#Create the application, then import the requirements
 		app_path = os.path.expanduser("~")+"/CApps/"+app_name
 		app_path = app_path.replace("\\", "/")
@@ -93,6 +99,7 @@ class Apps:
 		#Create a .rif file with information about application in it
 		f = open(os.path.expanduser("~")+"/CApps/"+app_name+"/info.rif", "w")
 		f.write("[name] => "+app_name)
+		f.write("\n[app_type] => python")
 		#Create the application, then import the requirements
 		app_path = os.path.expanduser("~")+"/CApps/"+app_name
 		app_path = app_path.replace("\\", "/")

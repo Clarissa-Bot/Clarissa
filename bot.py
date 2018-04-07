@@ -1,9 +1,12 @@
+
 #Get Clarissa's path
 def getClairssaDirectory():
     cl_path = str(__file__)
     cl_path = cl_path.replace("\\", "/")
     cl_path = cl_path.replace("bot.py", "")
 import os
+dir_path = os.path.dirname(os.path.realpath(__file__))
+dir_path = dir_path.replace("bot", "")
 import sys as sys
 sys.path.insert(0, getClairssaDirectory())
 from bot_response import bot_response as bot
@@ -25,6 +28,8 @@ from libs.cpu import CPU
 from libs.apps import Apps
 from threading import Thread
 from zipify.zipify import PAR
+VERSION = 67
+CODENAME = "1.2.3.3-ANIME"
 
 #Allow the user to communicate with the bot
 #Also allow the bot to learn about the person
@@ -88,7 +93,7 @@ def toBot(messageToBot):
                     #Not relevant, yet still works
                     swearNum = 1
                     #Remind the computer where CLARISSA_PATH is
-                    os.environ['CLARISSA_PATH'] = r.getClarissaSettingWithPath("setup.rif", "main", "install")
+                    os.environ['CLARISSA_PATH'] = r.getClarissaSettingWithPath(dir_path+"/setup.rif", "main", "install")
                     #Just for shits and giggles, remind the computer who the user name is!
                     os.environ['USER_NAME'] = r.getClarissaSetting("main","user.name")
                     if(messageToBot == "--add-command"):
@@ -239,7 +244,7 @@ try:
         elif ( sys.argv[1] == "--get-setting"):
                 print(getClarissaSetting("main",sys.argv[2]))
         elif ( "--enable-auto-update" in sys.argv):
-                w.setClarissaSettingWithPath("Settings/Clarissa.rif","update","Clarissa.AUTO_UPDATE", "true")
+                w.setClarissaSettingWithPath(dir_path+"/Settings/Clarissa.rif","update","Clarissa.AUTO_UPDATE", "true")
         elif ("--update-bot" in sys.argv):
             updateSystem()
         elif (sys.argv[1] == "--set-setting"):
@@ -256,18 +261,25 @@ try:
             app = Apps()
             if("--python" in sys.argv):
                 app.make_python_app(sys.argv[2])
-            else:
+            elif("--web" in sys.argv):
                 app.make_app(sys.argv[2])
+            else:
+                app_type = input("Type of application you want to build (python/web): ")
+                if(app_type == "python"):
+                    app.make_python_app(sys.argv[2])
+                else:
+                    app.make_app(sys.argv[2])
         elif(sys.argv[1] == "--text"):
             bot.getResponse(sys.argv[2])
+        elif(sys.argv[1] == "about://version"):
+        	print("Clarissa is a python-based chat-bot")
+        	print("Version: "+str(VERSION))
+        	print("Codename: "+str(CODENAME))
         elif(sys.argv[1] == "--run-app"):
             messageToBot = sys.argv[2]
             apps = Apps()
             if(apps.does_app_exist(messageToBot.replace("Run ","")) == True):
-                if("--python" in sys.argv):
-                    apps.run_python_app(messageToBot.replace("Run", ""))
-                else:
-                    apps.run(messageToBot.replace("Run ",""))
+                apps.run(messageToBot.replace("Run ",""))
             else:
                 print(messageToBot.replace("Run ","")+" was not found")
                 if(clarissa_voice_recognition_enabled == True):
@@ -326,4 +338,4 @@ except IndexError:
                 print("Clarissa: Speak now")
                 toBot(getSpeech())
         else:
-                toBot(messageToBot=input(r.getClarissaSetting("main","user.name")+": "))
+            toBot(messageToBot=input(r.getClarissaSetting("main","user.name")+": "))

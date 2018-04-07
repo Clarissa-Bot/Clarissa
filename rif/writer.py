@@ -1,5 +1,7 @@
 from rif import reader
 import os
+dir_path = os.path.dirname(os.path.realpath(__file__))
+dir_path = dir_path.replace("rif", "")
 import sys
 from tempfile import mkstemp
 from shutil import move
@@ -38,8 +40,8 @@ def setClarissaSettingWithPath(path, conf_sec, key, value):
 	f.flush()
 	f.close()
 def setClarissaSetting(conf_sec,key, value):
-	if(reader.getClarissaSettingWithPath("setup.rif", "main","install") is not None):
-		os.environ['CLARISSA_PATH'] = reader.getClarissaSettingWithPath("setup.rif", "main", "install")
+	if(reader.getClarissaSettingWithPath(dir_path+"/setup.rif", "main","install") is not None):
+		os.environ['CLARISSA_PATH'] = reader.getClarissaSettingWithPath(dir_path+"/setup.rif", "main", "install")
 		setting_path = os.environ['CLARISSA_PATH']+"/Settings/Clarissa.rif"
 		setClarissaSettingWithPath(setting_path, conf_sec, key, value)
 	else:

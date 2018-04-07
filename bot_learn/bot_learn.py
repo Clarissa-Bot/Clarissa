@@ -1,8 +1,11 @@
 import random
+import os as os
+dir_path = os.path.dirname(os.path.realpath(__file__))
+dir_path = dir_path.replace("bot_learn", "")
 
-line1 = open("corpus/learn_corpus.txt", 'r').readlines()
-line2 = open("corpus/fun_corpus.txt", 'r').readlines()
-line3 = open("corpus/ending_corpus.txt", 'r').readlines()
+line1 = open(dir_path+"/corpus/learn_corpus.txt", 'r').readlines()
+line2 = open(dir_path+"/corpus/fun_corpus.txt", 'r').readlines()
+line3 = open(dir_path+"/corpus/ending_corpus.txt", 'r').readlines()
 
 respPart1 = []
 respPart2 = []
