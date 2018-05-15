@@ -207,8 +207,8 @@ def getIf(message, command, response):
 
 def updateSystem():
     #Update Clarissa System
-    os.system("git fetch")
-    os.system("git checkout master")
+    os.system("git fetch -f")
+    os.system("git checkout master -f")
     os.system("git merge")
 swearNum = 0
 time = datetime.datetime.now()
