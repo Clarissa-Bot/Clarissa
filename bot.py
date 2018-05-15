@@ -207,9 +207,10 @@ def getIf(message, command, response):
 
 def updateSystem():
     #Update Clarissa System
-    os.system("git fetch -f")
-    os.system("git checkout master -f")
-    os.system("git merge")
+    print("UPDATING IN 30 SECONDS! CLOSE ALL CLARISSA FILES!")
+    time_check.sleep(30)
+    os.system("git reset --hard HEAD")
+    os.system("git pull")
 swearNum = 0
 time = datetime.datetime.now()
 hour_min = (time.hour+time.minute)
