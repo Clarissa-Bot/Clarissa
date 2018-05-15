@@ -102,6 +102,7 @@ def toBot(messageToBot):
                             reload(bot)
                     elif(messageToBot == "kill-bot"):
                             #Die, die, die!
+                            w.setClarissaSetting("clarissa", "name", "Clarissa")
                             exit()
                     elif(messageToBot == "--clear-commands"):
                             #Leave for multi-user computers. Clears the command list that is written.

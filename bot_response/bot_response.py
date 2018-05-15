@@ -11,6 +11,8 @@ from tts import tts
 from bot_learn import bot_learn as bl
 from rif import reader
 from rif import writer
+from storage import sql_base
+from storage.sql_base import SQL
 
 def get_name():
 	return reader.getClarissaSetting("clarissa", "name")
@@ -34,64 +36,17 @@ def getResponse(messageToBot):
 		getChatBasedResponse(messageToBot)
 
 def getServerBasedResponse(to_bot):
-	#Use chatterbot to come up with response
-	#Then add response to server if command is not on server
-	t = ""
-	import requests
-	url = "http://softy.xyz/apps/sites/clarissa/get.php"
-	query = {'user': reader.getClarissaSettingWithPath('user.rif', 'user', 'user'),
-	'pass': reader.getClarissaSettingWithPath('user.rif', 'pass', 'pass')
-	}
-	res = requests.post(url,data=query)
-	j = json.loads(res.text)
-	text = ""
-	for line in range(len(j)):
-		if to_bot == j[line]['command']:
+	#Communicate with commands.db
+	sql = SQL(dir_path+"/commands.db")
+	lines = sql.get_results("commands", "response", "`command`=\""+to_bot+"\"")
+	for line in lines:
+		for line2 in line:
 			if(sr.getClarissaSetting("speech", "speak_out") == "true"):
-				text = j[line]['reply']
+				text = line
 				tts.init(text, 'en-US', False)
-			print(cbot_name+": "+j[line]['reply'])
+			print(cbot_name+":"+line2)
 			return None
-		elif to_bot.lower() in j[line]['command'].lower():
-			if(sr.getClarissaSetting("speech", "speak_out") == "true"):
-				text = j[line]['reply']
-				tts.init(text, 'en-US', False)
-			print(cbot_name+": "+j[line]['reply'])
-			return None
-	t = text
-	if(sr.getClarissaSetting("speech", "speak_out") == "true"):
-		text = getChat(to_bot)
-		tts.init(text, 'en-US', False)
-	if(getChat(to_bot) is not ""):
-		print(cbot_name+": "+getChat(to_bot))
-	import requests as r
-	url = 'http://softy.xyz/apps/sites/clarissa/update.php'
-	#Learn hobby
-	t = bl.learn_hobby(to_bot)
-	if( t == ""):
-		return None
-	if(sr.getClarissaSetting("speech", "speak_out") == "true"):
-		text = t
-		tts.init(text, 'en-US', False)
-	#We must know if getChat response is empty for some reason
-	if ( getChat(to_bot) is ""):
-		return None
-	query = {
-	'u' : sr.getClarissaSettingWithPath(dir_path+"/user.rif", "user", "user"),
-	'p' : sr.getClarissaSettingWithPath(dir_path+"/user.rif", "pass", "pass"),
-	'c': to_bot,
-			'r': t,
-			'a': "None"}
-	t = getChat(to_bot)
-	query = {
-	'u' : sr.getClarissaSettingWithPath(dir_path+"/user.rif", "user", "user"),
-	'p' : sr.getClarissaSettingWithPath(dir_path+"/user.rif", "pass", "pass"),
-	'c': to_bot,
-			'r': t,
-			'a': "None"}
-	res = r.post(url, data=query)
-
-
+	bl.learn_hobby(to_bot)
 movie_lines = dir_path+"/corpus/movie_lines.txt"
 movie_convos = dir_path+"/corpus/movie_conversations.txt"
 
@@ -120,8 +75,7 @@ def get_id2line():
 
     return id2line
 def getChatBasedResponse(to_bot):
-	print(cbot_name+": "+getChat(to_bot))
-	bl.learn_hobby(to_bot)
+	getServerBasedResponse(to_bot)
 def getChat(to_bot):
 	question = to_bot
 	convs = getConvos()

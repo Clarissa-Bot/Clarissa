@@ -1,7 +1,18 @@
-from chatterbot import ChatBot
+from storage import sql_base
+from storage.sql_base import SQL
 import os as os
+import platform
+import bot_response as br
+#Install required modules using pip
+if(platform.system() == "Windows"):
+	os.system("pip install -r TO_INSTALL_WINDOWS.txt")
+else:
+	os.system("sudo pip install -r TO_INSTALL_LINUX")
+from chatterbot import ChatBot
 dir_path = os.path.dirname(os.path.realpath(__file__))
 dir_path = dir_path.replace("setup", "")
+movie_lines = dir_path+"/corpus/movie_lines.txt"
+movie_convos = dir_path+"/corpus/movie_conversations.txt"
 import sys
 from tempfile import mkstemp
 from shutil import move
@@ -14,6 +25,8 @@ from urllib.request import urlopen
 import shutil
 import requests
 url = 'http://softy.000webhostapp.com/login/login_empty.php'
+def clr():
+    os.system('cls' if os.name=='nt' else 'clear')
 def download(url, title, path):
 	print("Downloading: "+title)
 	response = urllib.request.urlopen(url)
@@ -161,10 +174,7 @@ def setupClarissa(install_path):
 		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_titles_metadata.txt", "Movie Titles", dir_path+"/corpus/movie_titles_metadata.txt")
 		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/raw_script_urls.txt", "Raw Script", dir_path+"/corpus/raw_script_urls.txt")
 		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/README.txt", "README", dir_path+"/corpus/README.txt")
-	if("win32" in sys.platform):
-		os.system("python -m pip install -r "+dir_path+"/TO_INSTALL_WINDOWS.txt")
-	else:
-		os.system("python -m pip install -r "++dir_path+"/TO_INSTALL_LINUX.txt")
+
 def internet_on():
     try:
         urllib.request.urlopen('http://216.58.192.142', timeout=1)
@@ -173,6 +183,86 @@ def internet_on():
         return False
     except urllib.error.URLError as err:
     	return False
+
+
+def _sql(path, commands):
+	sql = SQL(path)
+	sql.use_commands(commands)
+	sql.finalize()
+def get_id2line():
+
+    lines=open(movie_lines,encoding = "ISO-8859-1").read().split('\n')
+
+    id2line = {}
+
+    for line in lines:
+
+        _line = line.split(' +++$+++ ')
+
+        if len(_line) == 5:
+
+            id2line[_line[0]] = _line[4]
+    return id2line
+
+def getChat():
+	#Create the commands.db file
+	sql = SQL("commands.db")
+	#Write the commands table to it if it does not exist
+	sql.use_commands("CREATE TABLE IF NOT EXISTS commands(command VARCHAR(65535), response VARCHAR(65535))")
+	#Return convos
+	convs = getConvos()
+	#Return id2line
+	id2line = get_id2line()
+	a = ""
+	used_line = [ ]
+	num_indexed = 0
+	to_index = len(convs)
+
+	#Index all possible commands and responses
+	#To database
+	to_index = 83097
+	for conv in convs:
+		if len(conv) %2 != 0:
+			conv = conv[:-1]
+		for i in range(len(conv)):
+			try:
+				#Index number of times
+				#We have been running
+				num_indexed += 1
+				#Default check if num_index > 1000
+				if (sys.argv[2] == "--max-index"):
+					if(num_indexed > int(sys.argv[3])):
+						return None
+				#Clear the view
+				clr()
+				if(int(sys.argv[3]) > 0):
+					to_index = int(sys.argv[3])
+				else:
+					to_index = 83097
+				print("Possible index of %s out of %s"%(num_indexed, to_index))
+				if i%2 == 0:
+					sql.use_commands('''INSERT INTO commands(command, response) VALUES("%s", "%s")'''%(id2line[conv[i]],id2line[conv[i+1]]))
+					sql.finalize()
+			except IndexError as e:
+				clr()
+				to_index = 83097
+				print("Possible index of %s out of %s"%(num_indexed, to_index))
+				if i%2 == 0:
+					sql.use_commands('''INSERT INTO commands(command, response) VALUES("%s", "%s")'''%(id2line[conv[i]],id2line[conv[i+1]]))
+					sql.finalize()
+	sql.use_commands('''INSERT INTO commands(command, response) VALUES("kill-bot", "Thank you for using Clarissa")''')
+	sql.finalize()
+	return sql
+
+def getConvos():
+	lines = open(movie_convos,encoding = "ISO-8859-1").read().split("\n")
+	convs = [ ]
+	for line in lines[:-1]:
+		_line = line.split(' +++$+++ ')[-1][1:-1].replace("'","").replace(" ","")
+		convs.append(_line.split(','))
+
+	return convs
+
 try:
 	if(sys.argv[1] == "--reset"):
 		shutil.rmtree("libs/__pycache__")
@@ -199,3 +289,6 @@ except IndexError:
 except requests.exceptions.ConnectionError:
 	print("Offline setup!")
 	setupOfflineClarissa(sys.argv[1])
+print("Setting up database")
+getChat()
+print("Done!")
