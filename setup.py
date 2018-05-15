@@ -204,55 +204,57 @@ def get_id2line():
             id2line[_line[0]] = _line[4]
     return id2line
 
-def getChat():
-	#Create the commands.db file
-	sql = SQL("commands.db")
-	#Write the commands table to it if it does not exist
-	sql.use_commands("CREATE TABLE IF NOT EXISTS commands(command VARCHAR(65535), response VARCHAR(65535))")
-	#Return convos
-	convs = getConvos()
-	#Return id2line
-	id2line = get_id2line()
-	a = ""
-	used_line = [ ]
-	num_indexed = 0
-	to_index = len(convs)
+def getChat(rewrite_db=False):
+	if(rewrite_db == True):
+			#Create the commands.db file
+			sql = SQL("commands.db")
+			#Write the commands table to it if it does not exist
+			sql.use_commands("CREATE TABLE IF NOT EXISTS commands(command VARCHAR(65535), response VARCHAR(65535))")
+			#Return convos
+			convs = getConvos()
+			#Return id2line
+			id2line = get_id2line()
+			a = ""
+			used_line = [ ]
+			num_indexed = 0
+			to_index = len(convs)
 
-	#Index all possible commands and responses
-	#To database
-	to_index = 83097
-	for conv in convs:
-		if len(conv) %2 != 0:
-			conv = conv[:-1]
-		for i in range(len(conv)):
-			try:
-				#Index number of times
-				#We have been running
-				num_indexed += 1
-				#Default check if num_index > 1000
-				if (sys.argv[2] == "--max-index"):
-					if(num_indexed > int(sys.argv[3])):
-						return None
-				#Clear the view
-				clr()
-				if(int(sys.argv[3]) > 0):
-					to_index = int(sys.argv[3])
-				else:
-					to_index = 83097
-				print("Possible index of %s out of %s"%(num_indexed, to_index))
-				if i%2 == 0:
-					sql.use_commands('''INSERT INTO commands(command, response) VALUES("%s", "%s")'''%(id2line[conv[i]],id2line[conv[i+1]]))
-					sql.finalize()
-			except IndexError as e:
-				clr()
-				to_index = 83097
-				print("Possible index of %s out of %s"%(num_indexed, to_index))
-				if i%2 == 0:
-					sql.use_commands('''INSERT INTO commands(command, response) VALUES("%s", "%s")'''%(id2line[conv[i]],id2line[conv[i+1]]))
-					sql.finalize()
-	sql.use_commands('''INSERT INTO commands(command, response) VALUES("kill-bot", "Thank you for using Clarissa")''')
-	sql.finalize()
-	return sql
+			#Index all possible commands and responses
+			#To database
+			to_index = 83097
+			for conv in convs:
+				if len(conv) %2 != 0:
+					conv = conv[:-1]
+				for i in range(len(conv)):
+					try:
+						#Index number of times
+						#We have been running
+						num_indexed += 1
+						#Default check if num_index > 1000
+						if (sys.argv[2] == "--max-index"):
+							if(num_indexed > int(sys.argv[3])):
+								return None
+						#Clear the view
+						clr()
+						if(int(sys.argv[3]) > 0):
+							to_index = int(sys.argv[3])
+						else:
+							to_index = 83097
+						print("Possible index of %s out of %s"%(num_indexed, to_index))
+						if i%2 == 0:
+							sql.use_commands('''INSERT INTO commands(command, response) VALUES("%s", "%s")'''%(id2line[conv[i]],id2line[conv[i+1]]))
+							sql.finalize()
+					except IndexError as e:
+						clr()
+						to_index = 83097
+						print("Possible index of %s out of %s"%(num_indexed, to_index))
+						if i%2 == 0:
+							sql.use_commands('''INSERT INTO commands(command, response) VALUES("%s", "%s")'''%(id2line[conv[i]],id2line[conv[i+1]]))
+							sql.finalize()
+			sql.use_commands('''INSERT INTO commands(command, response) VALUES("kill-bot", "Thank you for using Clarissa")''')
+			sql.finalize()
+			return sql
+	print("Using existing commands database")
 
 def getConvos():
 	lines = open(movie_convos,encoding = "ISO-8859-1").read().split("\n")
