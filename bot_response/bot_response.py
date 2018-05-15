@@ -44,7 +44,7 @@ def getServerBasedResponse(to_bot):
 			if(sr.getClarissaSetting("speech", "speak_out") == "true"):
 				text = line
 				tts.init(text, 'en-US', False)
-			print(cbot_name+":"+line2)
+			print(cbot_name+": "+line2)
 			return None
 	bl.learn_hobby(to_bot)
 movie_lines = dir_path+"/corpus/movie_lines.txt"
