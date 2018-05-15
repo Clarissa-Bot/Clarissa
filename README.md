@@ -17,7 +17,7 @@ Q: Is this a finished product? A: No. Much like Minecraft, this project is and w
 Q: What is the project's goal? A: The goal is to add machine learning to a python bot. This has never been done before. We plan on having it be able to determine the next president by 2020. That feature will be deactivated by default until voting time.
 
 # Current version
-We are on version 1.2.1.1-TEST
+We are on version 1.2.1.3-PROD
 
 # What's new?
 Started using sqlite3 instead of server.
