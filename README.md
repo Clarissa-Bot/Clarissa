@@ -20,7 +20,7 @@ Q: What is the project's goal? A: The goal is to add machine learning to a pytho
 We are on version 1.2.1.5-PROD
 
 # What's new?
-Production release of Clarissa updater
+Started using sqlite3 instead of server.
 
 # How do I make an app for this?
 To make a new app, run:
