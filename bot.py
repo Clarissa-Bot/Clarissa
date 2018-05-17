@@ -28,6 +28,7 @@ from libs.cpu import CPU
 from libs.apps import Apps
 from threading import Thread
 from zipify.zipify import PAR
+from update import Updater
 VERSION = 67
 CODENAME = "1.2.3.3-ANIME"
 
@@ -209,8 +210,8 @@ def updateSystem():
     #Update Clarissa System
     print("UPDATING IN 30 SECONDS! CLOSE ALL CLARISSA FILES!")
     time_check.sleep(30)
-    os.system("git reset --hard HEAD")
-    os.system("git pull")
+    update = Updater(dir_path)
+    update.update()
 swearNum = 0
 time = datetime.datetime.now()
 hour_min = (time.hour+time.minute)
