@@ -36,6 +36,9 @@ class Apps:
 			sys.path.insert(0, cl_path+"/Apps/UserApps/"+app_name)
 
 			import main as custom_app
+			sys.argv.remove("bot.py")
+			if("--run-app" in sys.argv):
+				sys.argv.remove("--run-app")
 			custom_app.main(sys.argv)
 	def does_app_exist(self,app_name):
 		if(os.path.exists("Apps")):

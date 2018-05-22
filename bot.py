@@ -292,19 +292,18 @@ try:
                 else:
                     toBot(messageToBot=input(r.getClarissaSetting("main","user.name")+": "))
         elif(sys.argv[1] == "--install-app"):
-            fp = os.path.expanduser("~")+"/CApps/"+sys.argv[2]+"/build/"+sys.argv[2]+".cpk"
-            p = PAR(fp)
-            p.depackage()
-            print("Installed "+sys.argv[2])
-            
-        elif(sys.argv[1] == "--install-app" and "--from-external" in sys.argv):
-            if(".cpk" in sys.argv[2]):
-                fp = sys.argv[2]
+                if(sys.argv[2] == "--from-external"):
+                        cpk_path = input("CPK Path: ")
+                        p = PAR(cpk_path)
+                        p.depackage()
+                        cpk_name = p.get_cpk_name()
+                        print("Installed "+cpk_name)
+                        exit()
+                fp = os.path.expanduser("~")+"/CApps/"+sys.argv[2]+"/build/"+sys.argv[2]+".cpk"
                 p = PAR(fp)
                 p.depackage()
-                print("Installed "+sys.argv[2])
-            else:
-                print("Failed to install app: Archive is not a valid Clarissa package.")
+                cpk_name = p.get_cpk_name()
+                print("Installed "+cpk_name)
         elif(sys.argv[1] == "--build-app"):
             fp = os.path.expanduser("~")+"/CApps/"+sys.argv[2]
             p = PAR(fp)

@@ -25,12 +25,13 @@ class PAR:
 		print("Done!")
 
 	def depackage(self):
+		path = self.PATH
 		if(os.path.exists(dir_path+"/Apps") is False):
 			os.mkdir(dir_path+"/Apps")
 			os.mkdir(dir_path+"/Apps/UserApps")
 		if(os.path.exists(dir_path+"/Apps/UserApps") is False):
 			os.mkdir(dir_path+"/Apps/UserApps")
-		with zipfile.ZipFile(self.PATH, 'r') as name_zip:
+		with zipfile.ZipFile(path, 'r') as name_zip:
 			with name_zip.open("info.rif") as name_info:
 				print("Installing "+self.get_cpk_name())
 				app_name = self.get_cpk_name()
