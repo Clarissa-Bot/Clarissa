@@ -263,17 +263,7 @@ try:
         elif ("--disable-speak-out" in sys.argv):
                 w.setClarissaSetting("speech", "speak_out", "false")
         elif(sys.argv[1] == "--make-app"):
-            app = Apps()
-            if("--python" in sys.argv):
-                app.make_python_app(sys.argv[2])
-            elif("--web" in sys.argv):
-                app.make_app(sys.argv[2])
-            else:
-                app_type = input("Type of application you want to build (python/web): ")
-                if(app_type == "python"):
-                    app.make_python_app(sys.argv[2])
-                else:
-                    app.make_app(sys.argv[2])
+                print("Clarissa: You can only make apps with Clarissa Developer Edition.")
         elif(sys.argv[1] == "--text"):
             bot.getResponse(sys.argv[2])
         elif(sys.argv[1] == "about://version"):
@@ -305,9 +295,7 @@ try:
                 cpk_name = p.get_cpk_name()
                 print("Installed "+cpk_name)
         elif(sys.argv[1] == "--build-app"):
-            fp = os.path.expanduser("~")+"/CApps/"+sys.argv[2]
-            p = PAR(fp)
-            p.package(fp, sys.argv[3])
+                print("Clarissa: Building or compiling applications is only available on the Developer Edition of Clarissa.")
         elif(sys.argv[1] == "--build-app" and "--from-external" in sys.argv[4]):
             p = PAR(sys.argv[2])
             p.package(fp, sys.argv[3])
