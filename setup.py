@@ -8,7 +8,7 @@ if(platform.system() == "Windows"):
 	os.system("pip install -r TO_INSTALL_WINDOWS.txt")
 else:
 	os.system("sudo pip install -r TO_INSTALL_LINUX")
-from chatterbot import ChatBot
+#from chatterbot import ChatBot
 dir_path = os.path.dirname(os.path.realpath(__file__))
 dir_path = dir_path.replace("setup", "")
 movie_lines = dir_path+"/corpus/movie_lines.txt"
