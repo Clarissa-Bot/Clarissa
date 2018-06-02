@@ -314,7 +314,7 @@ try:
                 print("\t--disable-speech-recognition: Disables speech recognition")
                 print("\t--speak-out: Allows Clarissa to talk (BETA, may be slow!)")
                 print("\t--disable-speak-out: Stays to classic input output")
-                print("\t--make-app: Builds sample app to CApps directory (--make-app [APP_NAME] [Optional: --python])")
+                print("\t--make-app: Builds sample app to CApps directory (--make-app [APP_NAME] [Optional: --javascript])")
                 print("\t--install-app: Installs application to Clarissa (--install-app [APP_NAME] [optional: --from-external])")
                 print("\t--run-app: Runs app (python bot.py --run-app [APP_NAME] [optional: --python])")
                 print("\t--build-app: Builds application to .cpk (--build-app APP_PATH CPK_NAME [optional: --from-external])")

@@ -7,7 +7,7 @@ import bot_response as br
 if(platform.system() == "Windows"):
 	os.system("pip install -r TO_INSTALL_WINDOWS.txt")
 else:
-	os.system("sudo pip install -r TO_INSTALL_LINUX")
+	os.system("sudo pip install -r TO_INSTALL_LINUX.txt")
 from chatterbot import ChatBot
 dir_path = os.path.dirname(os.path.realpath(__file__))
 dir_path = dir_path.replace("setup", "")
@@ -267,17 +267,11 @@ def getConvos():
 
 try:
 	if(sys.argv[1] == "--reset"):
-		shutil.rmtree("libs/__pycache__")
-		shutil.rmtree("bot_learn/__pycache__")
-		shutil.rmtree("bot_response/__pycache__")
-		shutil.rmtree("rif/__pycache__")
-		shutil.rmtree("tts/__pycache__")
 		os.remove("commands.list")
 		os.remove("setup.rif")
 		os.remove("user.rif")
 		shutil.rmtree("Settings")
 		shutil.rmtree("Apps")
-		shutil.rmtree("__pycache__")
 		exit()
 	open(dir_path+"/setup.rif", "w")
 	w.setClarissaSetting("clarissa", "name", "Clarissa")

@@ -3,3 +3,5 @@ playsound
 SpeechRecognition
 chatterbot
 termcolor
+pywebview
+pythonnet
