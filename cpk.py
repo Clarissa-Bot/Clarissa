@@ -23,9 +23,9 @@ def run():
 		elif(get_beginning_command() == "make"):
 			#Makes a sample app
 			os.system("python bot.py --make-app "+get_commands()[1])
-		elif(get_beginning_command() == "make" and get_commands()[2] == "--python"):
+		elif(get_beginning_command() == "make" and get_commands()[2] == "--javascript"):
 			#Installs the built cpk
-			os.system("python bot.py --make-app "+get_commands()[1] + " --python")
+			os.system("python bot.py --make-app "+get_commands()[1] + " --javascript")
 		elif(get_beginning_command() == "make" and get_commands()[2] == "--web"):
 			#Installs the built cpk
 			os.system("python bot.py --make-app "+get_commands()[1] + " --web")
