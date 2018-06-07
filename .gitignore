@@ -1,0 +1,13 @@
+#Ignore settings folder
+Settings
+
+#Ignore the rif files
+*.rif
+
+bot_learn/__pycache__
+bot_response/__pycache__
+logger/__pycache__
+rif/__pycache__
+storage/__pycache__
+tts/__pycache__
+zipify/__pycache__
