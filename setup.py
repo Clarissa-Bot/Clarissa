@@ -287,7 +287,6 @@ try:
 		shutil.rmtree("Apps")
 		shutil.rmtree("__pycache__")
 		exit()
-	open(dir_path+"/setup.rif", "w")
 	w.setClarissaSetting("clarissa", "name", "Clarissa")
 	if(internet_on() is False):
 		setupOfflineClarissa(sys.argv[1])
