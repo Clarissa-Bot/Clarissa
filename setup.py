@@ -4,10 +4,16 @@ import os as os
 import platform
 import bot_response as br
 #Install required modules using pip
+def install(package):
+    pip.main(['install', package])
 if(platform.system() == "Windows"):
-	os.system("pip install -r TO_INSTALL_WINDOWS.txt")
+	file = open("TO_INSTALL_WINDOWS.txt", "r")
+	for line in file.readlines():
+		install(line)
 else:
-	os.system("sudo pip install -r TO_INSTALL_LINUX")
+	file = open("TO_INSTALL_LINUX.txt", "r")
+	for line in file.readlines():
+		install(line)
 #from chatterbot import ChatBot
 dir_path = os.path.dirname(os.path.realpath(__file__))
 dir_path = dir_path.replace("setup", "")
@@ -24,6 +30,7 @@ import json
 from urllib.request import urlopen
 import shutil
 import requests
+import pip
 url = 'http://softy.000webhostapp.com/login/login_empty.php'
 def clr():
     os.system('cls' if os.name=='nt' else 'clear')
@@ -174,6 +181,7 @@ def setupClarissa(install_path):
 		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/movie_titles_metadata.txt", "Movie Titles", dir_path+"/corpus/movie_titles_metadata.txt")
 		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/raw_script_urls.txt", "Raw Script", dir_path+"/corpus/raw_script_urls.txt")
 		download("https://softy.000webhostapp.com/apps/sites/clarissa/corpus/README.txt", "README", dir_path+"/corpus/README.txt")
+
 
 def internet_on():
     try:
