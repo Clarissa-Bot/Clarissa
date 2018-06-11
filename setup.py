@@ -1,22 +1,22 @@
 from storage import sql_base
 from storage.sql_base import SQL
 import os as os
+#from chatterbot import ChatBot
+dir_path = os.path.dirname(os.path.realpath(__file__))
+dir_path = dir_path.replace("setup", "")
 import platform
 import bot_response as br
 #Install required modules using pip
 def install(package):
     pip.main(['install', package])
 if(platform.system() == "Windows"):
-	file = open("TO_INSTALL_WINDOWS.txt", "r")
+	file = open(dir_path+"/TO_INSTALL_WINDOWS.txt", "r")
 	for line in file.readlines():
 		install(line)
 else:
-	file = open("TO_INSTALL_LINUX.txt", "r")
+	file = open(dir_path+"/TO_INSTALL_LINUX.txt", "r")
 	for line in file.readlines():
 		install(line)
-#from chatterbot import ChatBot
-dir_path = os.path.dirname(os.path.realpath(__file__))
-dir_path = dir_path.replace("setup", "")
 movie_lines = dir_path+"/corpus/movie_lines.txt"
 movie_convos = dir_path+"/corpus/movie_conversations.txt"
 import sys
