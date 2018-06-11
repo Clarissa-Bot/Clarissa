@@ -35,7 +35,7 @@ def setClarissaSettingWithPath(path, conf_sec, key, value):
 	f.flush()
 	f.close()
 def setClarissaSetting(conf_sec,key, value):
-	if(reader.getClarissaSettingWithPath(dir_path+"/setup.rif", "main","install") is not None):
+	if(reader.getClarissaSettingWithPath(dir_path+"setup.rif", "main","install") is not None):
 		os.environ['CLARISSA_PATH'] = reader.getClarissaSettingWithPath(dir_path+"/setup.rif", "main", "install")
 		setting_path = os.environ['CLARISSA_PATH']+"/Settings/Clarissa.rif"
 		setClarissaSettingWithPath(setting_path, conf_sec, key, value)
