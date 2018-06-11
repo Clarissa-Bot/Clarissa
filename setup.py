@@ -7,6 +7,7 @@ dir_path = dir_path.replace("setup", "")
 import platform
 import bot_response as br
 #Install required modules using pip
+import pip
 def install(package):
     pip.main(['install', package])
 if(platform.system() == "Windows"):
@@ -30,7 +31,6 @@ import json
 from urllib.request import urlopen
 import shutil
 import requests
-import pip
 url = 'http://softy.000webhostapp.com/login/login_empty.php'
 def clr():
     os.system('cls' if os.name=='nt' else 'clear')
