@@ -1,16 +1,20 @@
 #include<iostream>
+#include<unistd.h>
 #include <cstdlib>
+#include<stdlib.h>
+#include<stdio.h>
 using namespace std;
 int main(int argc, char** argv)
 {
-	std::string params = "py -3 ";
+	std::string current = getcwd(NULL,0);
+	std::string params = "python3 ";
 	try
 	{
 		std::string main = argv[1];
-		std::string params = "py -3 bot.py ";
+		std::string params = "python3 "+current+"/bot.py ";
 		if(main == "--setup")
 		{
-			params = "py -3 setup.py ";
+			params = "python3 "+current+"/setup.py ";
 			for(int i = 2; i < argc; i++)
 			{
 				params = params + argv[i] + " ";
@@ -25,6 +29,7 @@ int main(int argc, char** argv)
 		system(params.c_str());
 	}catch(std::logic_error)
 	{
-		system("py -3 bot.py");
+		std::string curstr = "python3 "+current+"/bot.py";
+		system(curstr.c_str());
 	}
 }

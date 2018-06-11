@@ -1,5 +1,6 @@
 #include<iostream>
-#include <cstdlib>
+#include<unistd.h>
+#include<cstdlib>
 using namespace std;
 
 void exec(char **argv, std::string sys, std::string second, int argc)
@@ -14,11 +15,12 @@ void exec(char **argv, std::string sys, std::string second, int argc)
 }
 void run(int argc, char** argv)
 {
+	std::string curdir = getcwd(NULL,0);
 	std::string main = argv[1];
 	if(main == "install")
 	{
 		std::string second = argv[2];
-		std::string sys = "py -3 bot.py --install-app ";
+		std::string sys = "python3 "+curdir+"/bot.py --install-app ";
 		sys = sys + second;
 		std::string result = "";
 		for(int i = 3; i < argc; i++)
