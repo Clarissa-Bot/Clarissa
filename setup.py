@@ -300,6 +300,10 @@ except IndexError:
 	print("Run python setup.py [CLARISSA_INSTALL_PATH]")
 	print("Or run python setup.py --reset to reset Clarissa to default")
 except requests.exceptions.ConnectionError:
+	f = open("setup.rif","w")
+	f.write("")
+	f.flush()
+	f.close()
 	print("Offline setup!")
 	setupOfflineClarissa(sys.argv[1])
 print("Setting up database")
