@@ -31,11 +31,6 @@ def setClarissaSettingWithPath(path, conf_sec, key, value):
 		f = open(path, 'a')
 	else:
 		f = open(path, 'w')
-	repl = open(path, "r")
-	result = ""
-	for line in repl.readlines():
-		if( "["+key+"] => " in line):
-			replace(path, line, "")
 	f.write("\n["+key+"] => "+value)
 	f.flush()
 	f.close()
