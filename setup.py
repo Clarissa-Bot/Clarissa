@@ -273,6 +273,10 @@ def getConvos():
 
 	return convs
 
+f = open("setup.rif","w")
+f.write("[name] => Clarissa\n")
+f.flush()
+f.close()
 try:
 	if(sys.argv[1] == "--reset"):
 		shutil.rmtree("libs/__pycache__")
@@ -287,11 +291,6 @@ try:
 		shutil.rmtree("Apps")
 		shutil.rmtree("__pycache__")
 		exit()
-	f = open("setup.rif","w")
-	f.write("")
-	f.flush()
-	f.close()
-	w.setClarissaSetting("clarissa", "name", "Clarissa")
 	if(internet_on() is False):
 		setupOfflineClarissa(sys.argv[1])
 		exit()
