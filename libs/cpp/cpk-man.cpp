@@ -32,7 +32,7 @@ void run(int argc, char** argv)
 	}else if( main == "run" )
 	{
 		std::string second = argv[2];
-		std::string sys = "py -3 bot.py --run-app ";
+		std::string sys = "python3 "+curdir+"/bot.py --run-app ";
 		sys = sys + second;
 		std::string result = "";
 		for(int i = 3; i < argc; i++)
@@ -44,7 +44,7 @@ void run(int argc, char** argv)
 	}else if( main == "make" )
 	{
 		std::string second = argv[2];
-		std::string sys = "py -3 bot.py --make-app ";
+		std::string sys = "python3 "+curdir+"/bot.py --make-app ";
 		sys = sys + second;
 		std::string result = "";
 		for(int i = 3; i < argc; i++)
@@ -56,14 +56,14 @@ void run(int argc, char** argv)
 	}else if( main == "compile" or main == "build")
 	{
 		std::string second = argv[2];
-		std::string sys = "py -3 bot.py --build-app ";
+		std::string sys = "python3 "+curdir+"/bot.py --build-app ";
 		sys = sys + second;
 		sys = sys + " "+second;
 		exec(argv, sys, second, argc);
 	}else if(main == "update")
 	{
 		std::string second = argv[2];
-		std::string sys = "py -3 bot.py --build-app ";
+		std::string sys = "python3 "+curdir+"/bot.py --build-app ";
 		sys = sys + second;
 		sys = sys + " "+second;
 		exec(argv, sys, second, argc);
