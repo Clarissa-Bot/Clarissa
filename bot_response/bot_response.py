@@ -16,7 +16,7 @@ from storage.sql_base import SQL
 
 def get_name():
 	return reader.getClarissaSetting("clarissa", "name")
-
+cbot_name = ""
 cbot_name = get_name()
 if(cbot_name is None):
 	cbot_name = "Clarissa"
