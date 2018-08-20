@@ -17,17 +17,19 @@ Q: Is this a finished product? A: No. Much like Minecraft, this project is and w
 Q: What is the project's goal? A: The goal is to add machine learning to a python bot. This has never been done before. We plan on having it be able to determine the next president by 2020. That feature will be deactivated by default until voting time.
 
 # Current version
-We are on version 1.2.1.5-PROD
+We are on version 1.2.1.6-PROD
 
 # What's new?
-Started using sqlite3 instead of server.
+Nothing really, just patched some errors in setup file, and added forwards compatibility to newer pip versions.
 
 # How do I make an app for this?
 To make a new app, run:
 cpk make APP_NAME
+But you need the developer_edition, so clone that instead. Run git clone https://github.com/Clarissa-Bot/Clarissa.git -b developer_edition
 
 To package the app, run:
 cpk compile LOCATION_OF_APP CPK_NAME
+But again, must have developer edition
 
 To install an app, run:
 cpk install LOCATION_OF_APP
@@ -36,4 +38,4 @@ To run an app, run:
 cpk run APP_NAME
 
 # What will be in the next version?
-We will continue to add to the corpus. We will also add some more developer friendly commands and functions. We will possibly include an app store.
+We added optional updating of commands database by setup file. Be sure to try it out, if you understand modifications of corpi.
