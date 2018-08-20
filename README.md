@@ -20,7 +20,7 @@ Q: What is the project's goal? A: The goal is to add machine learning to a pytho
 We are on version 1.2.1.6-PROD
 
 # What's new?
-Started using sqlite3 instead of server.
+Nothing really, just patched some errors in setup file, and added forwards compatibility to newer pip versions.
 
 # How do I make an app for this?
 To make a new app, run:
@@ -30,10 +30,9 @@ To package the app, run:
 cpk compile LOCATION_OF_APP CPK_NAME
 
 To install an app, run:
-cpk install LOCATION_OF_APP
 
 To run an app, run:
 cpk run APP_NAME
 
 # What will be in the next version?
-We will continue to add to the corpus. We will also add some more developer friendly commands and functions. We will possibly include an app store.
+We added optional updating of commands database by setup file. Be sure to try it out, if you understand modifications of corpi.
