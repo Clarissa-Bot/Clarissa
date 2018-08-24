@@ -94,7 +94,7 @@ def toBot(messageToBot):
                     #Not relevant, yet still works
                     swearNum = 1
                     #Remind the computer where CLARISSA_PATH is
-                    os.environ['CLARISSA_PATH'] = r.getClarissaSettingWithPath(dir_path+"/setup.rif", "main", "install")
+                    os.environ['CLARISSA_PATH'] = r.getClarissaSettingWithPath(dir_path+"/settings.rif", "main", "install")
                     #Just for shits and giggles, remind the computer who the user name is!
                     os.environ['USER_NAME'] = r.getClarissaSetting("main","user.name")
                     if(messageToBot == "--add-command"):
@@ -249,7 +249,7 @@ try:
         elif ( sys.argv[1] == "--get-setting"):
                 print(getClarissaSetting("main",sys.argv[2]))
         elif ( "--enable-auto-update" in sys.argv):
-                w.setClarissaSettingWithPath(dir_path+"/Settings/Clarissa.rif","update","Clarissa.AUTO_UPDATE", "true")
+                w.setClarissaSettingWithPath(dir_path+"/settings.rif","update","Clarissa.AUTO_UPDATE", "true")
         elif ("--update-bot" in sys.argv):
             updateSystem()
         elif (sys.argv[1] == "--set-setting"):
