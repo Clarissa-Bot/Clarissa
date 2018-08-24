@@ -10,6 +10,7 @@ import bot_response as br
 import pip
 import subprocess
 def install(package):
+	#os.system("pip install -r "+str(package))
 	if(float(pip.__version__) >= 10):
 		subprocess.check_call(["python", "-m", "pip", "install", package])
 	else:
@@ -47,8 +48,18 @@ def download(url, title, path):
 	f.write(text)
 	f.flush()
 	f.close()
+def getStatus(url):
+	with open(url, "r") as f:
+		j = json.load(f)
+	text = ""
+	for line in range(len(j)):
+		if(j[line]["status"] == "OKAY"):
+			w.setClarissaSettingWithPath(dir_path+"/user.rif", "user", "user", j[line]["username"])
+			w.setClarissaSettingWithPath(dir_path+"/user.rif", "pass","pass", j[line]["password"])
+		else:
+			print("You entered either a wrong username or password")
 def useWebServices(ask_in=False):
-	return "This feature is deprecated"
+	return "This feature was removed"
 
 def writeCommand(user, password, command, response):
         commandList = open("commands.list", "w")
@@ -67,59 +78,60 @@ def writeCommand(user, password, command, response):
                 res = r.post(url, data=query)
                 print(res.text)
 
-def setupOfflineClarissa():
+def setupOfflineClarissa(install_path):
 	w.setClarissaSettingWithPath(dir_path+"/user.rif", "user", "user", "Offline")
 	w.setClarissaSettingWithPath(dir_path+"/user.rif", "pass", "pass", "Offline")
-	os.remove("setup.rif")
-	if(os.path.isfile("setup.rif")):
-		out = open('setup.rif', 'a')
+	if(os.path.isfile(dir_path+"/settings.rif")):
+		out = open('settings.rif', 'a')
 		del_settings = input("This will delete your current settings. Do you wish to continue? (Y/N)")
 		if "y" in del_settings.lower():
-			shutil.rmtree(dir_path + "/Settings")
-			os.mkdir(dir_path + "/Settings")
+			shutil.rmtree("Settings")
+			os.mkdir("Settings")
 		else:
 			exit()
 
 	else:
-		if not os.path.exists(dir_path+"/Settings"):
-			os.mkdir(dir_path+"/Settings")
-		out = open('setup.rif', 'w')
+		if not os.path.exists(install_path+"/Settings"):
+			os.mkdir(install_path+"/Settings")
+		out = open('settings.rif', 'w')
 	print("Setting up Clarissa. This should not take long.")
 	setup = open(os.path.expanduser("~")+"/._clarissa.py", 'w')
 	setup.write("import os\n")
-	setup.write("os.environ['CLARISSA_PATH']=r\""+dir_path+"\"")
+	setup.write("os.environ['CLARISSA_PATH']=r\""+install_path+"\"")
 	setup.flush()
 	setup.close()
-	os.environ['CLARISSA_PATH'] = dir_path
-	w.setClarissaSettingWithPath(dir_path+"/setup.rif", "main", "install", dir_path)
+	os.environ['CLARISSA_PATH'] = install_path
+	w.setClarissaSettingWithPath(dir_path+"/settings.rif", "main", "install", install_path)
 	w.setClarissaSetting("main", "auto_update", "false")
 	w.setClarissaSetting("speech", "hey_clarissa_enabled", "false")
 	w.setClarissaSetting("speech", "speak_out", "false")
 	w.setClarissaSetting("main", "user.name", input("Your username: "))
-def setupClarissa():
+	print("Setup successful. When you are back online, re-run this setup.")
+def setupClarissa(install_path):
 	useWebServices()
-	if(os.path.isfile("setup.rif")):
-		out = open('setup.rif', 'a')
+	os.remove(dir_path+"/settings.rif")
+	if(os.path.isfile(dir_path+"/settings.rif")):
+		out = open('settings.rif', 'a')
 		del_settings = input("This will delete your current settings. Do you wish to continue? (Y/N)")
 		if "y" in del_settings.lower():
-			shutil.rmtree(dir_path + "/Settings")
-			os.mkdir(dir_path + "/Settings")
+			os.remove("rm -R Settings")
+			os.mkdir("Settings")
 		else:
 			exit()
 
 	else:
-		if not os.path.exists(dir_path+"/Settings"):
-			os.mkdir(dir_path+"/Settings")
-		out = open('setup.rif', 'w')
+		if not os.path.exists(install_path+"/Settings"):
+			os.mkdir(install_path+"/Settings")
+		out = open('settings.rif', 'w')
 	print("Setting up Clarissa. This should not take long.")
 	setup = open(os.path.expanduser("~")+"/._clarissa.py", 'w')
 	setup.write("import os\n")
-	setup.write("os.environ['CLARISSA_PATH']=r\""+dir_path+"\"")
+	setup.write("os.environ['CLARISSA_PATH']=r\""+install_path+"\"")
 	setup.flush()
 	setup.close()
-	os.environ['CLARISSA_PATH'] = dir_path
-	w.setClarissaSettingWithPath(dir_path+"/setup.rif", "main", "install", dir_path)
-	w.setClarissaSettingWithPath(dir_path+"/setup.rif", "main", "cbot_dir", os.path.dirname(os.path.realpath(__file__)))
+	os.environ['CLARISSA_PATH'] = install_path
+	w.setClarissaSettingWithPath(dir_path+"/settings.rif", "main", "install", install_path)
+	w.setClarissaSettingWithPath(dir_path+"/settings.rif", "main", "cbot_dir", os.path.dirname(os.path.realpath(__file__)))
 	w.setClarissaSetting("main", "auto_update", "false")
 	w.setClarissaSetting("speech", "hey_clarissa_enabled", "false")
 	w.setClarissaSetting("speech", "speak_out", "false")
@@ -227,30 +239,35 @@ def getConvos():
 	return convs
 
 try:
+	open(dir_path+"/settings.rif", "w")
+	
 	if(sys.argv[1] == "--reset"):
 		os.remove("commands.list")
-		os.remove("setup.rif")
-		os.remove("user.rif")
-		shutil.rmtree(dir_path + "/Settings")
-		shutil.rmtree("Apps")
 		exit()
-	open(dir_path+"/setup.rif", "w")
-	w.setClarissaSetting("clarissa", "name", "Clarissa")
 	if(internet_on() is False):
-		setupOfflineClarissa()
+		setupOfflineClarissa(dir_path)
 		exit()
-	setupClarissa()
-	if("--rebuild-chat" in sys.argv):
-		getChat(rewrite_db=True)
+	setupClarissa(dir_path)
+	if(sys.argv[1] == "--set-bot-name"):
+		w.setClarissaSetting("clarissa", "name", sys.argv[2])
+	else:
+		w.setClarissaSetting("clarissa", "name", "Clarissa")
 except IndexError:
 	print("Run python setup.py")
-	print("Or python.setup.py [optional:--reset] --rebuild-chat to rebuild chat based on dialogue quotes")
 	print("Or run python setup.py --reset to reset Clarissa to default")
+	print("Or run python setup.py --rebuild-chat to rebuild the chat database")
+	print("Or run python setup.py --set-bot-name [BOT_NAME] to change Clarissa's name")
+	if(internet_on() is False):
+		setupOfflineClarissa(dir_path)
+		exit()
+	setupClarissa(dir_path)
 except requests.exceptions.ConnectionError:
 	print("Offline setup!")
-	setupOfflineClarissa()
-	if("--rebuild-chat" in sys.argv):
-		getChat(rewrite_db=True)
+	setupOfflineClarissa(dir_path)
+	if(sys.argv[1] is "--set-bot-name"):
+		w.setClarissaSetting("clarissa", "name", sys.argv[2])
+	else:
+		w.setClarissaSetting("clarissa", "name", "Clarissa")
 print("Setting up database")
 getChat()
 print("Done!")
