@@ -7,13 +7,6 @@ from tempfile import mkstemp
 from shutil import move
 from os import fdopen, remove
 from rif import reader as rdr
-from configparser import DuplicateSectionError
-from configparser import NoSectionError
-try:
-	from configparser import SafeConfigParser
-except ImportError:
-	from ConfigParser import SafeConfigParser
-s = SafeConfigParser(False)
 import os
 def replace(file_path, pattern, subst):
     #Create temp file
